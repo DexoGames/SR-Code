@@ -1,3 +1,6 @@
+import{readRidges}from'./ridge-layout.js';
+import{readKnots}from'./knot-layout.js';
+import{readConstellation}from'./constellation.js';
 import{organicLayout}from'./organic.js';
 import{decodeValues,logicalGrid,shapeOffset}from'./format.js';
 import{geometry,probes,dataPoint}from'./render.js';
@@ -36,6 +39,7 @@ export function readRegistered(image,g,H,meta,{dark=15,light=245}={}){
   }
   return{ink:Math.max(0,Math.min(1,(light-total/5)/(light-dark))),inside:inside===5};
  };
+ if(organic?.kind==='graph'||organic?.kind==='ridge'||organic?.kind==='knot'){const read=(organic.kind==='graph'?readConstellation:organic.kind==='ridge'?readRidges:readKnots)(organic,p=>at(0,0,p),shapeOffset(meta.type,meta.size),meta.variant??0),result=decodeValues(read.values,read.valid,meta);return{...result,variant:meta.variant??0,unreadableSymbols:read.valid.filter(v=>!v).length,symbols:read.values.length,H};}
  for(let row=0;row<grid;row++)for(let col=0;col<grid;col++){
   const p=organic?{kind:'pairs',pairs:[organic.bits[row*grid+col].pair]}:probes(meta.type,row,col);let value=0,confidence=1,visible=true;
   if(p.kind==='hole'){

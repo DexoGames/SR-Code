@@ -5,7 +5,7 @@ import { toSVG, motif, geometry } from './render.js';
 const $ = id => document.getElementById(id);
 const state = { type: 0, size: 0, level: 2, codes: [], part: 0, file: null, fileName: '', stream: null, base: null, testSize: null, decoded: null, parts: new Map() };
 const worker = new Worker(new URL('./reader-worker.js', import.meta.url), { type: 'module' });
-let job = 0, activeJob = 0, busy = false, queued = null, damageTimer, cameraTimer;
+let job = 0, activeJob = 0, busy = false, queued = null, damageTimer, cameraTimer, capturing=false, burstCanvases=null, trackedRegion=null;
 
 function options(select, values, selected) {
   values.forEach((value, i) => select.add(new Option(value, i)));
@@ -67,17 +67,17 @@ function generate() {
   $('byte-count').textContent = `${bytes} / ${p.capacity} bytes`;
   [...$('format-options').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === state.type)));
   $('format-description').textContent = TYPES[state.type].probe + ' ' + TYPES[state.type].risk;
-  dl($('format-stats'), [['Payload per code', `${p.capacity} bytes`], ['Data positions', `${p.grid * p.grid}`], ['Bits per symbol', p.bits], ['Parity bytes', `${p.parity} / ${p.total}`], ['Export size', `${g.width} × ${g.width} px`]]);
+  dl($('format-stats'), [['Payload per code', `${p.capacity} bytes`], ['Encoded bits', p.total * 8], ['Physical features', state.type===5?`${p.grid*p.grid/4} stars + ${p.grid*p.grid/2} possible links`:state.type===3?`${p.grid*p.grid/2} strand routings`:state.type===4?`${p.grid*p.grid/2} ridge endings`:`${p.grid*p.grid} symbols`], ['Parity bytes', `${p.parity} / ${p.total}`], ['Export size', `${g.width} × ${g.width} px`]]);
   try {
     const opts = { type: state.type, size: state.size, level: state.level, binary: !!state.file };
     state.codes = $('split').checked ? encodeSequence(payload, opts) : [encode(payload, opts)];
     state.part = 0; $('make-error').hidden = true; $('code-preview').classList.remove('invalid');
-    for (const id of ['test-code', 'download-png', 'download-svg']) $(id).disabled = false;
+    for (const id of ['test-code', 'download-png', 'download-svg','show-code']) $(id).disabled = false;
     showCode();
   } catch (error) {
     state.codes = []; $('code-preview').textContent = 'Message exceeds this size.'; $('preview-name').textContent = `${TYPES[state.type].name.toUpperCase()} / ${SIZES[state.size].name}`; $('make-error').hidden = false; $('make-error').textContent = error.message + ' Choose a larger size or enable splitting.';
     $('code-preview').classList.add('invalid'); $('parts-control').hidden = true;
-    for (const id of ['test-code', 'download-png', 'download-svg']) $(id).disabled = true;
+    for (const id of ['test-code', 'download-png', 'download-svg','show-code']) $(id).disabled = true;
   }
 }
 function showCode() {
@@ -133,26 +133,28 @@ function clearResult() {
 }
 function invalidateReading() { job++; queued = null; }
 function scan(c, camera = false) {
-  clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = camera ? 'Keep the whole code steady and in focus.' : 'Aligning the shape and recovering the message.';
+  if(!camera){clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = 'Finding the corner motifs and recovering the message.';}
   const ctx = c.getContext('2d', { willReadFrequently: true }), image = ctx.getImageData(0, 0, c.width, c.height);
   const request = { id: ++job, image: { data: image.data, width: image.width, height: image.height }, camera };
   if (busy) queued = request; else sendScan(request);
 }
 function sendScan(request) {
   busy = true; activeJob = request.id; $('scan-busy').hidden = false;
-  worker.postMessage(request, [request.image.data.buffer]);
+  worker.postMessage(request, request.frames ? request.frames.map(f=>f.image.data.buffer) : [request.image.data.buffer]);
 }
 worker.onmessage = ({ data }) => {
   busy = false;
   if (data.id === job) {
+    if(data.frameIndex!==undefined&&burstCanvases?.id===data.id){state.base=burstCanvases.frames[data.frameIndex];showCameraFrame(state.base);}
+    const outline=data.result?.outline??data.outline;if(outline)trackedRegion={outline,width:data.width,height:data.height,at:performance.now()};
     $('scan-busy').hidden = true;
     if (data.error) {
       if (!state.stream) {
         document.querySelector('.scan-result').classList.add('failure'); $('scan-status').textContent = 'No verified read.';
         $('scan-message').textContent = data.error + ' Try a larger, sharper image or reduce the damage.';
-      } else { $('scan-status').textContent = 'Looking for a code…'; $('scan-message').textContent = 'Keep the outer shape visible and face the camera straight on.'; }
+      } else { $('scan-status').textContent = data.found===4 ? 'Code located.' : 'Looking for a code…'; $('scan-message').textContent = data.error; drawCameraOutline(data.outline,data.width,data.height); }
     } else {
-      showResult(data.result);
+      showResult(data.result); if(state.stream)drawCameraOutline(data.result.outline,data.width,data.height);
       if (state.stream && data.result.parts === 1) stopCamera();
     }
   }
@@ -216,7 +218,7 @@ function applyDamage() {
   $('cover-output').textContent = `${Math.round(cover * 100)}%`; $('crop-output').textContent = `${Math.round(crop * 100)}%`;
   $('rotation-output').textContent = `${angle}°`; $('blur-output').textContent = `${blur} px`;
   const base = state.base, marked = canvas(base.width, base.height), m = marked.getContext('2d'); m.drawImage(base, 0, 0);
-  const side = Math.sqrt(cover) * geometry(state.testSize).inner;
+  const side = Math.sqrt(cover) * geometry(state.testSize).inner * .72;
   m.fillStyle = '#fff'; m.fillRect((base.width - side) / 2, (base.height - side) / 2, side, side);
   const cut = Math.floor(base.width * crop), size = base.width - cut, rad = angle * Math.PI / 180, extent = Math.ceil(size * (Math.abs(Math.sin(rad)) + Math.abs(Math.cos(rad))));
   const out = canvas(extent), ctx = out.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, extent, extent);
@@ -232,24 +234,39 @@ function stopCamera() {
   if (!state.stream) return;
   state.stream.getTracks().forEach(t => t.stop()); state.stream = null; clearTimeout(cameraTimer);
   $('camera').srcObject = null; $('camera').hidden = true; $('camera-guide').hidden = true;
-  $('stop-camera').hidden = true; $('start-camera').hidden = false;
+  $('stop-camera').hidden = true; $('start-camera').hidden = false; $('camera-overlay').hidden=true; $('save-camera-frame').hidden=true;
   if ($('scan-canvas').width > 0 && state.base) $('scan-canvas').hidden = false; else $('scan-placeholder').hidden = false;
 }
 $('stop-camera').onclick = () => { invalidateReading(); stopCamera(); $('scan-busy').hidden = true; };
 $('start-camera').onclick = async () => {
   try {
     if (!navigator.mediaDevices?.getUserMedia) throw Error('Camera access needs HTTPS or localhost and a supported browser.');
-    stopCamera(); invalidateReading(); clearResult();
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1600 }, height: { ideal: 1200 } }, audio: false });
+    stopCamera(); invalidateReading(); clearResult(); trackedRegion=null;
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 2560 }, height: { ideal: 1440 } }, audio: false });
     if ($('panel-read').hidden) { stream.getTracks().forEach(t => t.stop()); return; }
-    state.stream = stream; $('camera').srcObject = stream; await $('camera').play();
-    $('camera').hidden = false; $('scan-canvas').hidden = true; $('scan-placeholder').hidden = true; $('camera-guide').hidden = false;
-    $('damage-controls').hidden = true; $('start-camera').hidden = true; $('stop-camera').hidden = false;
-    const frame = () => {
+    state.stream = stream;
+    try{const track=stream.getVideoTracks()[0],caps=track.getCapabilities?.();if(caps?.focusMode?.includes('continuous'))await track.applyConstraints({advanced:[{focusMode:'continuous'}]});}catch{}
+    $('scan-status').textContent='Looking for a code…'; $('scan-message').textContent='Keep all four corner motifs visible. Move closer until the pattern is sharp.';
+    $('camera').srcObject = stream; await $('camera').play();
+    $('camera').hidden = false; $('scan-canvas').hidden = true; $('scan-placeholder').hidden = true; $('camera-guide').hidden = true; $('camera-overlay').hidden=false;
+    $('damage-controls').hidden = true; $('start-camera').hidden = true; $('stop-camera').hidden = false; $('save-camera-frame').hidden=false;
+    const frame = async () => {
       if (!state.stream) return;
-      const v = $('camera');
-      if (!busy && v.videoWidth) { const scale = Math.min(1, 1600 / v.videoWidth), c = canvas(Math.round(v.videoWidth * scale), Math.round(v.videoHeight * scale)); c.getContext('2d').drawImage(v, 0, 0, c.width, c.height); state.base = c; showCameraFrame(c); scan(c, true); }
-      cameraTimer = setTimeout(frame, 650);
+      if (!busy && !capturing && $('camera').videoWidth) {
+        capturing=true; const streamAtStart=state.stream,frames=[];
+        try{
+          for(let i=0;i<3;i++){
+            if(i)await new Promise(resolve=>setTimeout(resolve,45));
+            if(state.stream!==streamAtStart)return;
+            const v=$('camera'),scale=Math.min(1,2560/v.videoWidth),c=canvas(Math.round(v.videoWidth*scale),Math.round(v.videoHeight*scale));
+            c.getContext('2d').drawImage(v,0,0,c.width,c.height);frames.push(c);
+          }
+          state.base=frames[0];showCameraFrame(frames[0]);
+          const id=++job;burstCanvases={id,frames};
+          sendScan({id,camera:true,frames:frames.map(c=>{const quality=frameSharpness(c),pixels=c.getContext('2d').getImageData(0,0,c.width,c.height);return{quality,image:{data:pixels.data,width:c.width,height:c.height}};})});
+        }finally{capturing=false;}
+      }
+      if(state.stream)cameraTimer=setTimeout(frame,180);
     };
     frame();
   } catch (error) { stopCamera(); $('scan-status').textContent = 'Camera unavailable.'; $('scan-message').textContent = error.name === 'NotAllowedError' ? 'Camera permission was declined. You can open an image instead.' : error.message; }
@@ -265,19 +282,34 @@ function capacityTable() {
   TYPES.forEach((t, type) => { const row = body.insertRow(); row.insertCell().textContent = t.name; SIZES.forEach((_, size) => row.insertCell().textContent = `${plan(type, size, level).capacity.toLocaleString()} B`); });
 }
 $('compare-level').onchange = capacityTable;
-const reads = ['Thick curves and a simple alphabet.', 'Separated shapes remain the practical baseline.', 'A branching specimen. Thin tips are the hardest areas to photograph.', 'A continuous ornamental braid. Data avoids crowded crossings.', 'Core position, ridge shape and broader local changes carry data.', 'The star positions and broader link shapes carry data.'];
+const reads = ['Thick curves and a simple alphabet.', 'Separated shapes remain the practical baseline.', 'A sea-fan tree with larger, readable branch tips.', 'Strand routings and visible over–under crossings carry the data.', 'Core geometry and the positions of broad ridge endings carry data.', 'Star positions and actual connections form chains, loops and triangles.'];
 TYPES.forEach((t, i) => { const card = document.createElement('article'), title = document.createElement('h3'), p = document.createElement('p'), risk = document.createElement('p'); title.textContent = t.name; p.textContent = t.potential; risk.textContent = reads[i] + ' ' + t.risk; risk.className = 'tradeoff'; card.append(title, p, risk); $('potential-grid').append(card); });
-async function benchmarks() {
+async function benchmarks(path, tableId, methodId) {
   try {
-    const response = await fetch('/benchmark.json'); if (!response.ok) throw Error(); const report = await response.json();
-    $('benchmark-method').textContent = `${report.method.size} size · ${report.method.level} protection · ${report.method.samplesPerScenario} messages per condition · synthetic images`;
-    const table = $('benchmark-table'); table.innerHTML = '<thead><tr><th>Condition</th>' + TYPES.map(t => `<th>${t.name}</th>`).join('') + '</tr></thead>';
+    const response = await fetch(path); if (!response.ok) throw Error(); const report = await response.json();
+    $(methodId).textContent = typeof report.method==='string' ? `S size · Strong protection · ${report.samples} messages per condition · synthetic frames` : `${report.method.size} size · ${report.method.level} protection · ${report.method.samplesPerScenario} messages per condition · synthetic images`;
+    const table = $(tableId); table.innerHTML = '<thead><tr><th>Condition</th>' + TYPES.map(t => `<th>${t.name}</th>`).join('') + '</tr></thead>';
     const body = table.createTBody();
     report.scenarios.forEach(scenario => {
       const row = body.insertRow(); row.insertCell().textContent = scenario.name;
       TYPES.forEach(t => { const trials = report.results.find(r => r.type === t.id).rows.filter(r => r.scenario === scenario.id), passed = trials.filter(r => r.pass).length, cell = row.insertCell(); cell.textContent = `${passed} / ${trials.length}`; cell.className = passed === trials.length ? 'pass' : 'fail'; });
     });
-  } catch { $('benchmark-method').textContent = 'Measured results could not be loaded. Download the report or reload the page.'; }
+  } catch { $(methodId).textContent = 'Measured results could not be loaded. Download the report or reload the page.'; }
 }
 $('scan-status').setAttribute('aria-live', 'polite');
-setTab('make'); generate(); capacityTable(); benchmarks();
+setTab('make'); generate(); capacityTable(); benchmarks('/benchmark.json','benchmark-table','benchmark-method'); benchmarks('/webcam-benchmark.json','webcam-table','webcam-method');
+
+function drawCameraOutline(points,width,height){
+ const c=$('camera-overlay'),stage=$('drop-zone');c.width=stage.clientWidth;c.height=stage.clientHeight;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);if(!points)return;
+ const scale=Math.min(c.width/width,c.height/height),ox=(c.width-width*scale)/2,oy=(c.height-height*scale)/2;ctx.strokeStyle='#f06a38';ctx.lineWidth=3;ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(ox+x*scale,oy+y*scale):ctx.moveTo(ox+x*scale,oy+y*scale));ctx.closePath();ctx.stroke();
+}
+$('show-code').onclick=()=>{if(!state.codes.length)return;$('large-code').innerHTML=toSVG(state.codes[state.part]);$('display-code').showModal();};
+$('close-display').onclick=()=>$('display-code').close();
+
+$('save-camera-frame').onclick=()=>{if(state.base)saveCanvas(state.base,'rs-camera-frame.png');};
+
+function frameSharpness(source){
+ let x=source.width*.1,y=source.height*.1,w=source.width*.8,h=source.height*.8;
+ if(trackedRegion&&performance.now()-trackedRegion.at<1500){const p=trackedRegion.outline.map(([a,b])=>[a*source.width/trackedRegion.width,b*source.height/trackedRegion.height]),xs=p.map(q=>q[0]),ys=p.map(q=>q[1]);x=Math.max(0,Math.min(...xs)-source.width*.05);y=Math.max(0,Math.min(...ys)-source.height*.05);w=Math.min(source.width-x,Math.max(...xs)-x+source.width*.05);h=Math.min(source.height-y,Math.max(...ys)-y+source.height*.05);}
+ const c=canvas(160),ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(source,x,y,w,h,0,0,160,160);const d=ctx.getImageData(0,0,160,160).data,g=new Float32Array(160*160);for(let i=0;i<g.length;i++)g[i]=(d[i*4]+d[i*4+1]+d[i*4+2])/3;let sum=0,count=0;for(let yy=1;yy<159;yy++)for(let xx=1;xx<159;xx++){const i=yy*160+xx,v=4*g[i]-g[i-1]-g[i+1]-g[i-160]-g[i+160];sum+=v*v;count++;}return sum/count;
+}

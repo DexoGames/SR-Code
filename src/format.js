@@ -1,11 +1,11 @@
 import{rsEncode,rsDecode,crc32}from'./ecc.js';
 export const TYPES=[
 {id:'weave',name:'Weave',bits:1,potential:'Flowing textile patterns.',risk:'Curves merge under heavy blur.',probe:'Two curved connection states.'},
-{id:'pebble',name:'Pebble',bits:2,potential:'Soft, clearly separated shapes.',risk:'Small openings fill under blur.',probe:'The position of each opening.'},
-{id:'coral',name:'Coral',bits:1,potential:'One connected branching specimen.',risk:'Fine tips need resolution.',probe:'Branch structure and local deflections.'},
-{id:'knot',name:'Knot',bits:1,potential:'A continuous multi-strand ornamental knot.',risk:'Crossings constrain where data can live.',probe:'Small deflections along uncrowded strand sections.'},
-{id:'fingerprint',name:'Fingerprint',bits:1,potential:'Oval ridges flowing around a small core.',risk:'A central mask affects many ridge sections.',probe:'Core and ridge geometry plus broader local deflections.'},
-{id:'constellation',name:'Constellation',bits:1,potential:'Stars connected into an irregular sky map.',risk:'Fine links need resolution.',probe:'Star positions and broader connection geometry.'}
+{id:'pebble',name:'Pebble',bits:2,potential:'Varied stone sizes with separated openings.',risk:'Small openings fill under blur.',probe:'The position of each opening.'},
+{id:'coral',name:'Coral',bits:1,potential:'One connected branching specimen.',risk:'Fine tips need resolution.',probe:'Branch structure and the direction of larger branch tips.'},
+{id:'knot',name:'Knot',bits:1,potential:'An interlaced ornament with four strand routings.',risk:'Crossings constrain where data can live.',probe:'Over–under crossings and turning strand pairs.'},
+{id:'fingerprint',name:'Fingerprint',bits:1,potential:'Oval ridges flowing around a small core.',risk:'A central mask affects many ridge sections.',probe:'Core geometry and four possible ridge-ending positions.'},
+{id:'constellation',name:'Constellation',bits:1,potential:'Stars connected into an irregular sky map.',risk:'Fine links need resolution.',probe:'Four possible star positions plus two connection decisions per star.'}
 ];
 export const SIZES=[{name:'S',grid:24},{name:'M',grid:36},{name:'L',grid:52},{name:'XL',grid:72}];
 export const LEVELS=[{name:'Light',ratio:.16},{name:'Balanced',ratio:.28},{name:'Strong',ratio:.40},{name:'Maximum',ratio:.52}];
@@ -23,7 +23,7 @@ export function whiten(i){let x=(i+1)*0x45d9f3b;x=Math.imul(x^(x>>>16),0x45d9f3b
 function packet(payload,p,{part=0,parts=1,totalLength=payload.length,group=crc32(payload),binary=false}={}){
   if(payload.length>p.capacity)throw Error(`This size holds ${p.capacity} bytes; the payload needs ${payload.length}.`);
   const a=new Uint8Array(p.capacity+HEADER),v=new DataView(a.buffer);
-  a.set([82,83,3,p.type,p.size,p.level,binary?0:1,0]);v.setUint32(8,group);a[12]=part;a[13]=parts;
+  a.set([82,83,4,p.type,p.size,p.level,binary?0:1,0]);v.setUint32(8,group);a[12]=part;a[13]=parts;
   v.setUint32(14,totalLength);v.setUint16(18,payload.length);a.set(payload,HEADER);
   const check=new Uint8Array(20+payload.length);check.set(a.subarray(0,20));check.set(payload,20);v.setUint32(20,crc32(check));
   return a;
@@ -55,7 +55,7 @@ export function decodeValues(values,valid,{type,size,level}){
   const bytes=new Uint8Array(p.capacity+HEADER);let at=0,corrected=0,erasures=0;
   for(let i=0;i<blocks.length;i++){const d=rsDecode(blocks[i],p.blocks[i].p,erased[i]);bytes.set(d.data,at);at+=d.data.length;corrected+=d.corrected;erasures+=d.erasures;}
   const v=new DataView(bytes.buffer),length=v.getUint16(18),parts=bytes[13],part=bytes[12],totalLength=v.getUint32(14);
-  if(bytes[0]!==82||bytes[1]!==83||bytes[2]!==3||bytes[3]!==type||bytes[4]!==size||bytes[5]!==level||length>p.capacity||parts<1||parts>16||part>=parts||totalLength>p.capacity*parts)throw Error('Invalid decoded header');
+  if(bytes[0]!==82||bytes[1]!==83||bytes[2]!==4||bytes[3]!==type||bytes[4]!==size||bytes[5]!==level||length>p.capacity||parts<1||parts>16||part>=parts||totalLength>p.capacity*parts)throw Error('Invalid decoded header');
   const data=bytes.slice(HEADER,HEADER+length),check=new Uint8Array(20+length);check.set(bytes.subarray(0,20));check.set(data,20);
   if(crc32(check)!==v.getUint32(20))throw Error('Checksum mismatch; scan rejected');
   if(parts===1&&(totalLength!==length||crc32(data)!==v.getUint32(8)))throw Error('Payload integrity check failed');

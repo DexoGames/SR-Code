@@ -6,7 +6,7 @@ const clone=i=>({...i,data:Uint8Array.from(i.data)});
 const rawOpts=i=>({raw:{width:i.width,height:i.height,channels:4}});
 async function sharpImage(image,change){const{data,info}=await change(sharp(image.data,rawOpts(image))).ensureAlpha().raw().toBuffer({resolveWithObject:true});return{data,width:info.width,height:info.height};}
 function rectangle(image,x,y,w,h,color=255){const out=clone(image);for(let yy=Math.max(0,Math.floor(y));yy<Math.min(out.height,y+h);yy++)for(let xx=Math.max(0,Math.floor(x));xx<Math.min(out.width,x+w);xx++){const p=(yy*out.width+xx)*4;out.data[p]=out.data[p+1]=out.data[p+2]=color;out.data[p+3]=255;}return out;}
-function occlude(image,fraction){const inner=image.width-104,side=Math.sqrt(fraction)*inner;return rectangle(image,(image.width-side)/2,(image.height-side)/2,side,side);}
+function occlude(image,fraction){const inner=(image.width-104)*.72,side=Math.sqrt(fraction)*inner;return rectangle(image,(image.width-side)/2,(image.height-side)/2,side,side);}
 function perspective(image){
  const w=image.width,h=image.height,dst=[[w*.13,h*.03],[w*.94,h*.15],[w*.98,h*.91],[w*.02,h*.98]],src=[[0,0],[w,0],[w,h],[0,h]],inverse=homography(dst.map((p,i)=>[p,src[i]])),data=new Uint8Array(w*h*4).fill(255);
  for(let y=0;y<h;y++)for(let x=0;x<w;x++){const[a,b]=project(inverse,x+.5,y+.5),xx=Math.floor(a),yy=Math.floor(b);if(xx<0||yy<0||xx>=w-1||yy>=h-1)continue;const dx=a-xx,dy=b-yy;for(let c=0;c<3;c++)data[(y*w+x)*4+c]=image.data[(yy*w+xx)*4+c]*(1-dx)*(1-dy)+image.data[(yy*w+xx+1)*4+c]*dx*(1-dy)+image.data[((yy+1)*w+xx)*4+c]*(1-dx)*dy+image.data[((yy+1)*w+xx+1)*4+c]*dx*dy;}
@@ -54,6 +54,6 @@ const capacities=TYPES.map((type,t)=>({
   sizes:SIZES.map((size,s)=>({...plan(t,s,l),name:size.name}))
  }))
 }));
-const report={format:'RS Code v3 experimental',createdAt:new Date().toISOString(),method:{size:SIZES[size].name,grid:SIZES[size].grid,level:LEVELS[level].name,samplesPerScenario:samples,source:'Rasterized generated SVG; no embedded-payload reading; synthetic transforms only. No physical camera or print validation.',occlusion:'Square mask as a fraction of data-area pixels, with no separate locator symbols.'},scenarios:scenarios.map(({id,name})=>({id,name})),results,negative,capacities};
+const report={format:'RS Code v4 experimental',createdAt:new Date().toISOString(),method:{size:SIZES[size].name,logicalPositions:TYPES.map((t,i)=>({type:t.id,count:plan(i,size,level).grid**2})),level:LEVELS[level].name,samplesPerScenario:samples,source:'Rasterized generated SVG; no embedded-payload reading; synthetic transforms only. No physical camera or print validation.',occlusion:'Square mask as a fraction of data-area pixels, with themed reference motifs outside the data region.'},scenarios:scenarios.map(({id,name})=>({id,name})),results,negative,capacities};
 mkdirSync('public',{recursive:true});writeFileSync('public/benchmark.json',JSON.stringify(report,null,2));
 console.log('Saved public/benchmark.json; incorrect decoded payloads:',results.flatMap(t=>t.rows).filter(r=>r.wrongDecode).length);

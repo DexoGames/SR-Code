@@ -1,0 +1,891 @@
+{
+  "method": "Synthetic camera frames; S/Strong, 1280×960, offset phone-sized code, projective transforms, blur, lighting, JPEG and periodic interference. Not a physical webcam/phone evaluation.",
+  "samples": 3,
+  "scenarios": [
+    {
+      "id": "offset",
+      "name": "Phone within a larger frame",
+      "options": {
+        "quad": [
+          [
+            350,
+            140
+          ],
+          [
+            1050,
+            140
+          ],
+          [
+            1050,
+            840
+          ],
+          [
+            350,
+            840
+          ]
+        ],
+        "blur": 0
+      }
+    },
+    {
+      "id": "tilted",
+      "name": "Tilt + lens blur",
+      "options": {}
+    },
+    {
+      "id": "shadow",
+      "name": "Tilt + shadow + JPEG",
+      "options": {
+        "shadow": true,
+        "jpeg": true,
+        "blur": 0.65
+      }
+    },
+    {
+      "id": "moire",
+      "name": "Tilt + simulated screen interference",
+      "options": {
+        "moire": true,
+        "blur": 0.55
+      }
+    },
+    {
+      "id": "medium",
+      "name": "Code about 520 px wide",
+      "options": {
+        "quad": [
+          [
+            370,
+            250
+          ],
+          [
+            900,
+            280
+          ],
+          [
+            870,
+            790
+          ],
+          [
+            390,
+            780
+          ]
+        ],
+        "blur": 0.5
+      }
+    },
+    {
+      "id": "small",
+      "name": "Code about 360 px wide",
+      "options": {
+        "quad": [
+          [
+            470,
+            330
+          ],
+          [
+            835,
+            350
+          ],
+          [
+            815,
+            700
+          ],
+          [
+            480,
+            700
+          ]
+        ],
+        "blur": 0.65
+      }
+    }
+  ],
+  "results": [
+    {
+      "type": "weave",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 682.1285
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 53.28858300000002
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 51.107249999999794
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.32637499999987
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.942209000000048
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 40.28970900000013
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 30.403999999999996
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.00391599999989
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.446917000000212
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.337958999999955
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.21945800000003
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 29.85545900000011
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.031875000000127
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.057999999999993
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.464457999999922
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.59429199999977
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.50970899999993
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.69066699999985
+        }
+      ]
+    },
+    {
+      "type": "pebble",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.38120899999967
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.693083000000115
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.24112500000001
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.237082999999984
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.02187499999991
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 48.89449999999988
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 40.47275000000036
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.22395800000004
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.045082999999977
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.56966599999987
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.93720899999971
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.737041999999747
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.930875000000015
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.918416999999863
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.109832999999526
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        }
+      ]
+    },
+    {
+      "type": "coral",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.617874999999913
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.56879200000003
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.37249999999949
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.67108300000018
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.473041999999623
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 15.598332999999911
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.928874999999607
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.858083999999508
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.326250000000073
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.279999999999745
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.568333000000166
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 15.302208000000064
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.069542000000183
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.507666999999856
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.10029200000008
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.765041999999994
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.74779099999978
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 16.928915999999845
+        }
+      ]
+    },
+    {
+      "type": "knot",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.64850000000024
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 30.554958000000624
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.71837500000038
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.06708299999991
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.221542000000227
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.262040999999954
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.9556249999996
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 31.29424999999992
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.139916999999514
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.021959000000606
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.067958000001454
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.62712499999907
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.342124999999214
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.37554099999943
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.77824999999939
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        }
+      ]
+    },
+    {
+      "type": "fingerprint",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.48449999999866
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.260874999999942
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 31.426292000000103
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.169541999999637
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.135207999999693
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 16.071374999999534
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.259792000000743
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.8662089999998
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.564041999999972
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.015542000001005
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.302625000000262
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 16.64654199999859
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.534749999998894
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.433415999999852
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.809916000000158
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.901291999998648
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.23333300000013
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 16.111666000000696
+        }
+      ]
+    },
+    {
+      "type": "constellation",
+      "rows": [
+        {
+          "sample": 0,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.509749999999258
+        },
+        {
+          "sample": 0,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 24.263166999999157
+        },
+        {
+          "sample": 0,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.840166999998473
+        },
+        {
+          "sample": 0,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.758499999999913
+        },
+        {
+          "sample": 0,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.138041999998677
+        },
+        {
+          "sample": 0,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 1,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.71891599999981
+        },
+        {
+          "sample": 1,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.69470900000124
+        },
+        {
+          "sample": 1,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.34516700000131
+        },
+        {
+          "sample": 1,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.367541999999958
+        },
+        {
+          "sample": 1,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.412250000001222
+        },
+        {
+          "sample": 1,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        },
+        {
+          "sample": 2,
+          "scenario": "offset",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.424208000000363
+        },
+        {
+          "sample": 2,
+          "scenario": "tilted",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 29.639750000000276
+        },
+        {
+          "sample": 2,
+          "scenario": "shadow",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.000457999998616
+        },
+        {
+          "sample": 2,
+          "scenario": "moire",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.17699999999968
+        },
+        {
+          "sample": 2,
+          "scenario": "medium",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.713292000000365
+        },
+        {
+          "sample": 2,
+          "scenario": "small",
+          "pass": false,
+          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
+          "found": 4
+        }
+      ]
+    }
+  ]
+}

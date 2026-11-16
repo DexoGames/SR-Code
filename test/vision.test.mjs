@@ -1,11 +1,12 @@
+import{contentHomography}from'../src/landmark-reader.js';
 import{test}from'node:test';import assert from'node:assert/strict';
 import{encode,TYPES,plan,shapeVariant}from'../src/format.js';import{toSVG,geometry}from'../src/render.js';
 import{decodeImage,readRegistered,grayscale,homography}from'../src/vision.js';import{raster,sharp}from'../scripts/runtime.mjs';
 test('Six types decode actual raster pixels without metadata',async()=>{
  for(let type=0;type<TYPES.length;type++){
   const code=encode('https://dexo.games/rs',{type,size:1,level:2}),image=await raster(toSVG(code));
-  const g=grayscale(image),direct=readRegistered(image,g,[1,0,0,0,1,0,0,0,1],{...code,variant:shapeVariant(code)});assert.equal(direct.text,'https://dexo.games/rs',TYPES[type].name+' registered');
-  const result=decodeImage(image);assert.equal(result.text,'https://dexo.games/rs',TYPES[type].name);assert.equal(result.markers,0);
+  const g=grayscale(image),direct=readRegistered(image,g,contentHomography([image.width,0,0,0,image.width,0,0,0,1],image.width),{...code,variant:shapeVariant(code)});assert.equal(direct.text,'https://dexo.games/rs',TYPES[type].name+' registered');
+  const result=decodeImage(image);assert.equal(result.text,'https://dexo.games/rs',TYPES[type].name);assert.equal(result.markers,4);
  }
 });
 test('Every size, language and protection level reads a capacity-bound raster',async()=>{

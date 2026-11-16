@@ -1,7 +1,9 @@
+import{landmarkSVG,CONTENT_INSET,CONTENT_SCALE}from'./landmarks.js';
 import{organicLayout,organicSVG}from'./organic.js';
 import{SIZES,shapeOffset,shapeVariant}from'./format.js';
 export const CELL=36,PAD=52,MARKER=36;
 export function geometry(size){const grid=SIZES[size].grid,inner=grid*CELL,width=inner+2*PAD;return{grid,inner,width,pad:PAD,cell:CELL};}
+export function pebbleShape(row,col){const a=(Math.sin(row*127.1+col*311.7)*43758.5453)%1,b=(Math.sin(row*269.5+col*183.3)*24634.6345)%1;return{rx:.29+.17*Math.abs(a),ry:.29+.17*Math.abs(b)};}
 const f=x=>Math.round(x*1000)/1000;
 export function dataPoint(type,size,row,col,p){
  const{grid,inner,width}=geometry(size);let[x,y]=p;
@@ -9,7 +11,7 @@ export function dataPoint(type,size,row,col,p){
   const angle=2*Math.PI*(col+x)/grid,r=inner*(.11+.37*(row+y)/grid),wave=1+.04*Math.sin(3*angle+.4);
   return[width/2+r*wave*Math.cos(angle),width/2+r*wave*Math.sin(angle)*.97];
  }
- if(type===1){x+=(row%2?.075:-.075)+.015*Math.sin(row*31+col*17);y+=.02*Math.cos(col*19+row*11);}
+ if(type===1){x+=(row%2?.22:-.22)+.04*Math.sin(row*31+col*17);y+=.05*Math.cos(col*19+row*11);}
  return[PAD+(col+x)*CELL,PAD+(row+y)*CELL];
 }
 export function motif(type,value,row,col){
@@ -19,8 +21,8 @@ export function motif(type,value,row,col){
  if(type===0){
   path(value?'M0 .5 A.5 .5 0 0 0 .5 0 M.5 1 A.5 .5 0 0 1 1 .5':'M.5 0 A.5 .5 0 0 0 1 .5 M0 .5 A.5 .5 0 0 1 .5 1',.18);
  }else if(type===1){
-  ellipses.push({x:.5,y:.5,rx:.425+.015*Math.sin(row*13+col),ry:.425+.015*Math.cos(col*7+row)});
-  const spots=[[.5,.27],[.73,.5],[.5,.73],[.27,.5]];dot(...spots[value],.14,true);
+  const {rx,ry}=pebbleShape(row,col);ellipses.push({x:.5,y:.5,rx,ry});
+  const spots=[[.5,.5-ry*.54],[.5+rx*.54,.5],[.5,.5+ry*.54],[.5-rx*.54,.5]];dot(...spots[value],Math.min(rx,ry)*.38,true);
  }else if(type===2){
   path('M.5 1 C.60 .73 .40 .27 .5 0',.095);
   for(let j=0;j<2;j++){const right=(value>>(1-j))&1,y=.27+j*.43,x=right?.78:.22;
@@ -51,16 +53,17 @@ export function motif(type,value,row,col){
 }
 export function probes(type,row,col){
  if(type===0)return{kind:'pairs',pairs:[[[.35355,.35355],[.64645,.35355]]],positive:1};
- if(type===1)return{kind:'hole',points:[[.5,.27],[.73,.5],[.5,.73],[.27,.5]]};
+ if(type===1){const{rx,ry}=pebbleShape(row,col);return{kind:'hole',points:[[.5,.5-ry*.54],[.5+rx*.54,.5],[.5,.5+ry*.54],[.5-rx*.54,.5]]};}
  if(type===2)return{kind:'pairs',pairs:[[[.78,.27],[.22,.27]],[[.78,.70],[.22,.70]]],positive:1};
  if(type===3)return{kind:'pairs',pairs:[[[.35,.35],[.35,.65]]],positive:1};
  if(type===4){const phase=(row%4)*.35,curve=(x,j)=>.28+j*.44+.065*Math.sin((col+x)*Math.PI/3+phase);return{kind:'pairs',pairs:[0,1].map(j=>[[.3,curve(.3,j)],[.7,curve(.7,j)]]),positive:1};}
  const phase=((row*17+col*11)%12)*Math.PI/6;
  return{kind:'pairs',pairs:[0,1,2].map(j=>[1,0].map(b=>{const a=phase+(2*j+b)*Math.PI/3;return[.5+.23*Math.cos(a),.5+.23*Math.sin(a)];})),positive:1};
 }
-export function toSVG(code,{ink='#171714',paper='#ffffff'}={}){
+export function toSVG(code,{ink='#171714',paper='#ffffff',landmarks=true}={}){
  const{width}=geometry(code.size),grid=code.grid,out=[`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${width}" width="${width}" height="${width}"><rect width="100%" height="100%" fill="${paper}"/>`];
- if(code.type>=2)out.push(organicSVG(organicLayout(code.type,code.size,grid,width,shapeVariant(code)),code.values,ink,shapeOffset(code.type,code.size)));
+ if(landmarks)out.push(`<g transform="translate(${width*CONTENT_INSET} ${width*CONTENT_INSET}) scale(${CONTENT_SCALE})">`);
+ if(code.type>=2)out.push(organicSVG(organicLayout(code.type,code.size,grid,width,shapeVariant(code)),code.values,ink,shapeOffset(code.type,code.size),paper));
  if(code.type<2)for(let row=0;row<grid;row++)for(let col=0;col<grid;col++){
   if(code.type===4){
    const value=code.values[row*grid+col];
@@ -80,5 +83,6 @@ export function toSVG(code,{ink='#171714',paper='#ffffff'}={}){
   for(const c of m.circles)out.push(`<circle cx="${c.x}" cy="${c.y}" r="${c.r}" fill="${c.white?paper:ink}"/>`);
   out.push('</g>');
  }
+ if(landmarks)out.push('</g>',landmarkSVG(code.type,width,ink,paper));
  out.push('</svg>');return out.join('');
 }
