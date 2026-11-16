@@ -16,6 +16,8 @@ const scenarios=[
  {id:'clean',name:'Original',run:async i=>i},
  {id:'resize480',name:'480 px image',run:i=>sharpImage(i,p=>p.resize(480,480))},
  {id:'resize320',name:'320 px image',run:i=>sharpImage(i,p=>p.resize(320,320))},
+ {id:'print600',name:'600 px + blur σ 1.0 px',run:i=>sharpImage(i,p=>p.resize(600,600).blur(1))},
+ {id:'print480',name:'480 px + blur σ 1.0 px',run:i=>sharpImage(i,p=>p.resize(480,480).blur(1))},
  {id:'blur06',name:'Blur σ 0.6 px',run:i=>sharpImage(i,p=>p.blur(.6))},
  {id:'blur12',name:'Blur σ 1.2 px',run:i=>sharpImage(i,p=>p.blur(1.2))},
  {id:'rotate37',name:'Rotation 37°',run:i=>sharpImage(i,p=>p.rotate(37,{background:'#ffffff'}))},
@@ -52,6 +54,6 @@ const capacities=TYPES.map((type,t)=>({
   sizes:SIZES.map((size,s)=>({...plan(t,s,l),name:size.name}))
  }))
 }));
-const report={format:'RS Code v2 experimental',createdAt:new Date().toISOString(),method:{size:SIZES[size].name,grid:SIZES[size].grid,level:LEVELS[level].name,samplesPerScenario:samples,source:'Rasterized generated SVG; no embedded-payload reading; synthetic transforms only. No physical camera or print validation.',occlusion:'Square mask as a fraction of data-area pixels, keeping reference marks visible except in named crop/corner cases.'},scenarios:scenarios.map(({id,name})=>({id,name})),results,negative,capacities};
+const report={format:'RS Code v3 experimental',createdAt:new Date().toISOString(),method:{size:SIZES[size].name,grid:SIZES[size].grid,level:LEVELS[level].name,samplesPerScenario:samples,source:'Rasterized generated SVG; no embedded-payload reading; synthetic transforms only. No physical camera or print validation.',occlusion:'Square mask as a fraction of data-area pixels, with no separate locator symbols.'},scenarios:scenarios.map(({id,name})=>({id,name})),results,negative,capacities};
 mkdirSync('public',{recursive:true});writeFileSync('public/benchmark.json',JSON.stringify(report,null,2));
 console.log('Saved public/benchmark.json; incorrect decoded payloads:',results.flatMap(t=>t.rows).filter(r=>r.wrongDecode).length);

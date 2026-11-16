@@ -1,0 +1,69 @@
+{
+  "method": "Rasterise, resize, Gaussian blur; synthetic, not a physical print test.",
+  "results": [
+    {
+      "version": "before",
+      "type": "fingerprint",
+      "width": 600,
+      "blurSigma": 1,
+      "pass": 3,
+      "trials": 3
+    },
+    {
+      "version": "before",
+      "type": "fingerprint",
+      "width": 480,
+      "blurSigma": 1,
+      "pass": 0,
+      "trials": 3
+    },
+    {
+      "version": "before",
+      "type": "constellation",
+      "width": 600,
+      "blurSigma": 1,
+      "pass": 0,
+      "trials": 3
+    },
+    {
+      "version": "before",
+      "type": "constellation",
+      "width": 480,
+      "blurSigma": 1,
+      "pass": 0,
+      "trials": 3
+    },
+    {
+      "version": "after",
+      "type": "fingerprint",
+      "width": 600,
+      "blurSigma": 1,
+      "pass": 3,
+      "trials": 3
+    },
+    {
+      "version": "after",
+      "type": "fingerprint",
+      "width": 480,
+      "blurSigma": 1,
+      "pass": 3,
+      "trials": 3
+    },
+    {
+      "version": "after",
+      "type": "constellation",
+      "width": 600,
+      "blurSigma": 1,
+      "pass": 3,
+      "trials": 3
+    },
+    {
+      "version": "after",
+      "type": "constellation",
+      "width": 480,
+      "blurSigma": 1,
+      "pass": 3,
+      "trials": 3
+    }
+  ]
+}

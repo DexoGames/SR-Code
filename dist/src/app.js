@@ -75,7 +75,7 @@ function generate() {
     for (const id of ['test-code', 'download-png', 'download-svg']) $(id).disabled = false;
     showCode();
   } catch (error) {
-    state.codes = []; $('make-error').hidden = false; $('make-error').textContent = error.message + ' Choose a larger size or enable splitting.';
+    state.codes = []; $('code-preview').textContent = 'Message exceeds this size.'; $('preview-name').textContent = `${TYPES[state.type].name.toUpperCase()} / ${SIZES[state.size].name}`; $('make-error').hidden = false; $('make-error').textContent = error.message + ' Choose a larger size or enable splitting.';
     $('code-preview').classList.add('invalid'); $('parts-control').hidden = true;
     for (const id of ['test-code', 'download-png', 'download-svg']) $(id).disabled = true;
   }
@@ -133,7 +133,7 @@ function clearResult() {
 }
 function invalidateReading() { job++; queued = null; }
 function scan(c, camera = false) {
-  clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = camera ? 'Keep the whole code steady and in focus.' : 'Finding reference marks and recovering the message.';
+  clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = camera ? 'Keep the whole code steady and in focus.' : 'Aligning the shape and recovering the message.';
   const ctx = c.getContext('2d', { willReadFrequently: true }), image = ctx.getImageData(0, 0, c.width, c.height);
   const request = { id: ++job, image: { data: image.data, width: image.width, height: image.height }, camera };
   if (busy) queued = request; else sendScan(request);
@@ -150,7 +150,7 @@ worker.onmessage = ({ data }) => {
       if (!state.stream) {
         document.querySelector('.scan-result').classList.add('failure'); $('scan-status').textContent = 'No verified read.';
         $('scan-message').textContent = data.error + ' Try a larger, sharper image or reduce the damage.';
-      } else { $('scan-status').textContent = 'Looking for a code…'; $('scan-message').textContent = 'Keep at least three reference marks visible. Move closer if the pattern is small.'; }
+      } else { $('scan-status').textContent = 'Looking for a code…'; $('scan-message').textContent = 'Keep the outer shape visible and face the camera straight on.'; }
     } else {
       showResult(data.result);
       if (state.stream && data.result.parts === 1) stopCamera();
@@ -162,7 +162,7 @@ worker.onerror = () => { busy = false; $('scan-busy').hidden = true; $('scan-sta
 function showResult(result) {
   clearResult();
   $('scan-details').hidden = false;
-  dl($('scan-stats'), [['Format', TYPES[result.type].name], ['Size / protection', `${SIZES[result.size].name} / ${LEVELS[result.level].name}`], ['Reference marks', `${result.markers} / 8`], ['Changed codewords', result.corrected], ['Erased codewords', result.erasures], ['Reader time', `${Math.round(result.elapsedMs)} ms`]]);
+  dl($('scan-stats'), [['Format', TYPES[result.type].name], ['Size / protection', `${SIZES[result.size].name} / ${LEVELS[result.level].name}`], ['Alignment', result.registration || 'whole shape'], ['Shape variant', (result.variant ?? 0) + 1], ['Changed codewords', result.corrected], ['Erased codewords', result.erasures], ['Reader time', `${Math.round(result.elapsedMs)} ms`]]);
   let decoded = result;
   if (result.parts > 1) {
     const key = `${result.group}:${result.parts}:${result.totalLength}:${result.binary}`;
@@ -265,7 +265,7 @@ function capacityTable() {
   TYPES.forEach((t, type) => { const row = body.insertRow(); row.insertCell().textContent = t.name; SIZES.forEach((_, size) => row.insertCell().textContent = `${plan(type, size, level).capacity.toLocaleString()} B`); });
 }
 $('compare-level').onchange = capacityTable;
-const reads = ['Thick curves and a simple alphabet.', 'Separated shapes remain the practical baseline.', 'A branching specimen. Thin tips are the hardest areas to photograph.', 'A continuous ornamental braid. Data avoids crowded crossings.', 'Whole oval ridges. Dense central damage affects many bits.', 'A sparse connected star map. Fine bends along the links carry the message.'];
+const reads = ['Thick curves and a simple alphabet.', 'Separated shapes remain the practical baseline.', 'A branching specimen. Thin tips are the hardest areas to photograph.', 'A continuous ornamental braid. Data avoids crowded crossings.', 'Core position, ridge shape and broader local changes carry data.', 'The star positions and broader link shapes carry data.'];
 TYPES.forEach((t, i) => { const card = document.createElement('article'), title = document.createElement('h3'), p = document.createElement('p'), risk = document.createElement('p'); title.textContent = t.name; p.textContent = t.potential; risk.textContent = reads[i] + ' ' + t.risk; risk.className = 'tradeoff'; card.append(title, p, risk); $('potential-grid').append(card); });
 async function benchmarks() {
   try {

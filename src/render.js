@@ -1,11 +1,7 @@
 import{organicLayout,organicSVG}from'./organic.js';
-import{MARKERS}from'./markers.js';
-import{SIZES}from'./format.js';
+import{SIZES,shapeOffset,shapeVariant}from'./format.js';
 export const CELL=36,PAD=52,MARKER=36;
 export function geometry(size){const grid=SIZES[size].grid,inner=grid*CELL,width=inner+2*PAD;return{grid,inner,width,pad:PAD,cell:CELL};}
-export function markerPositions(size){const{width}=geometry(size),a=23,b=width-23,m=width/2;return[[a,a],[m,a],[b,a],[b,m],[b,b],[m,b],[a,b],[a,m]];}
-export const markerIndex=(type,size,level,id)=>(((type*4+size)*4+level)*8+id);
-export function markerMeta(index){const id=index%8;index=Math.floor(index/8);const level=index%4;index=Math.floor(index/4);return{id,level,size:index%4,type:Math.floor(index/4)};}
 const f=x=>Math.round(x*1000)/1000;
 export function dataPoint(type,size,row,col,p){
  const{grid,inner,width}=geometry(size);let[x,y]=p;
@@ -64,7 +60,7 @@ export function probes(type,row,col){
 }
 export function toSVG(code,{ink='#171714',paper='#ffffff'}={}){
  const{width}=geometry(code.size),grid=code.grid,out=[`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${width}" width="${width}" height="${width}"><rect width="100%" height="100%" fill="${paper}"/>`];
- if(code.type>=2)out.push(organicSVG(organicLayout(code.type,code.size,grid,width),code.values,ink));
+ if(code.type>=2)out.push(organicSVG(organicLayout(code.type,code.size,grid,width,shapeVariant(code)),code.values,ink,shapeOffset(code.type,code.size)));
  if(code.type<2)for(let row=0;row<grid;row++)for(let col=0;col<grid;col++){
   if(code.type===4){
    const value=code.values[row*grid+col];
@@ -82,12 +78,6 @@ export function toSVG(code,{ink='#171714',paper='#ffffff'}={}){
   for(const e of m.ellipses)out.push(`<ellipse cx="${e.x}" cy="${e.y}" rx="${e.rx}" ry="${e.ry}" fill="${ink}"/>`);
   for(const p of m.p)out.push(`<path d="${p.d}" fill="none" stroke="${p.white?paper:ink}" stroke-width="${p.w}" stroke-linecap="round" stroke-linejoin="round"/>`);
   for(const c of m.circles)out.push(`<circle cx="${c.x}" cy="${c.y}" r="${c.r}" fill="${c.white?paper:ink}"/>`);
-  out.push('</g>');
- }
- for(const[id,[cx,cy]]of markerPositions(code.size).entries()){
-  const word=MARKERS[markerIndex(code.type,code.size,code.level,id)],unit=MARKER/9,x=cx-MARKER/2,y=cy-MARKER/2;
-  out.push(`<g transform="translate(${x} ${y}) scale(${unit})"><path d="M0 0H9V9H0Z M1 1V8H8V1Z" fill="${ink}" fill-rule="evenodd"/>`);
-  for(let r=0;r<5;r++)for(let c=0;c<5;c++)if(word>>>(r*5+c)&1)out.push(`<rect x="${2+c}" y="${2+r}" width="1" height="1" fill="${ink}"/>`);
   out.push('</g>');
  }
  out.push('</svg>');return out.join('');

@@ -1,13 +1,13 @@
 {
-  "format": "RS Code v1 experimental",
-  "createdAt": "2026-11-16T08:50:00.309Z",
+  "format": "RS Code v3 experimental",
+  "createdAt": "2026-11-16T15:50:28.004Z",
   "method": {
     "size": "M",
     "grid": 36,
     "level": "Strong",
     "samplesPerScenario": 3,
     "source": "Rasterized generated SVG; no embedded-payload reading; synthetic transforms only. No physical camera or print validation.",
-    "occlusion": "Square mask as a fraction of data-area pixels, keeping reference marks visible except in named crop/corner cases."
+    "occlusion": "Square mask as a fraction of data-area pixels, with no separate locator symbols."
   },
   "scenarios": [
     {
@@ -21,6 +21,14 @@
     {
       "id": "resize320",
       "name": "320 px image"
+    },
+    {
+      "id": "print600",
+      "name": "600 px + blur σ 1.0 px"
+    },
+    {
+      "id": "print480",
+      "name": "480 px + blur σ 1.0 px"
     },
     {
       "id": "blur06",
@@ -80,8 +88,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 89.957125,
-          "markers": 8,
+          "ms": 929.7421659999999,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -90,25 +98,48 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.562583000000018,
-          "markers": 7,
+          "ms": 30.842750000000024,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 0,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 1 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 19.699208,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 17.136833000000024,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 28.174999999999955,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 66.73091699999998,
-          "markers": 8,
+          "ms": 14.350791999999956,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -117,38 +148,32 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 60.57612499999999,
-          "markers": 8,
+          "ms": 26.526041000000077,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 80.25845800000002,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 64.219833,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 54.772334,
-          "markers": 8,
+          "ms": 119.57816699999967,
+          "markers": 0,
           "corrected": 22,
           "erasures": 24
         },
@@ -157,9 +182,9 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.676333,
-          "markers": 8,
-          "corrected": 44,
+          "ms": 27.419541999999637,
+          "markers": 0,
+          "corrected": 43,
           "erasures": 48
         },
         {
@@ -167,9 +192,9 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 52.423958000000084,
-          "markers": 8,
-          "corrected": 58,
+          "ms": 28.50658300000032,
+          "markers": 0,
+          "corrected": 57,
           "erasures": 60
         },
         {
@@ -177,28 +202,25 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 50.38125000000002,
-          "markers": 7,
-          "corrected": 11,
+          "ms": 92.30058300000019,
+          "markers": 0,
+          "corrected": 12,
           "erasures": 12
         },
         {
           "scenario": "crop",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 43.025792000000024,
-          "markers": 3,
-          "corrected": 41,
-          "erasures": 46
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.269791000000055,
-          "markers": 8,
+          "ms": 129.30412499999966,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -207,8 +229,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.42733400000009,
-          "markers": 8,
+          "ms": 87.82849999999962,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -217,8 +239,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 205.271792,
-          "markers": 8,
+          "ms": 581.2061670000003,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -227,8 +249,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 53.3230410000001,
-          "markers": 8,
+          "ms": 14.086624999999913,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -237,25 +259,48 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 13.681040999999823,
-          "markers": 7,
+          "ms": 36.79204200000004,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 1,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 1 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 24.90991699999995,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.886083999999755,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 35.678374999999505,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 54.09341600000016,
-          "markers": 8,
+          "ms": 14.09375,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -264,38 +309,32 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 57.499458000000004,
-          "markers": 8,
+          "ms": 71.01483400000052,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 83.52366700000016,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 52.367541000000074,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 50.29141600000003,
-          "markers": 8,
+          "ms": 117.31875000000036,
+          "markers": 0,
           "corrected": 23,
           "erasures": 24
         },
@@ -304,8 +343,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 56.681916,
-          "markers": 8,
+          "ms": 13.412374999999884,
+          "markers": 0,
           "corrected": 46,
           "erasures": 48
         },
@@ -314,9 +353,9 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 47.18970800000011,
-          "markers": 8,
-          "corrected": 59,
+          "ms": 12.74779099999978,
+          "markers": 0,
+          "corrected": 60,
           "erasures": 60
         },
         {
@@ -324,28 +363,25 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 57.012333000000126,
-          "markers": 7,
-          "corrected": 11,
+          "ms": 48.105750000000626,
+          "markers": 0,
+          "corrected": 12,
           "erasures": 12
         },
         {
           "scenario": "crop",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 43.52395799999999,
-          "markers": 3,
-          "corrected": 44,
-          "erasures": 46
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 56.895249999999805,
-          "markers": 8,
+          "ms": 137.19795800000065,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -354,8 +390,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 59.97895800000015,
-          "markers": 8,
+          "ms": 83.22508299999936,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -364,8 +400,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 211.58162500000026,
-          "markers": 8,
+          "ms": 694.00425,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -374,8 +410,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 53.45104200000014,
-          "markers": 8,
+          "ms": 14.43683400000009,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -384,25 +420,48 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 12.426750000000084,
-          "markers": 7,
+          "ms": 12.056374999998297,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 2,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 1 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 29.751500000000306,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 17.71612500000083,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 16.58679099999972,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 53.47054200000002,
-          "markers": 8,
+          "ms": 13.84283300000061,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -411,38 +470,32 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 60.31062500000007,
-          "markers": 8,
+          "ms": 27.9207920000008,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 80.48275000000012,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 51.3737500000002,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 49.97633300000007,
-          "markers": 8,
+          "ms": 201.22662499999933,
+          "markers": 0,
           "corrected": 23,
           "erasures": 24
         },
@@ -451,9 +504,9 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 52.119832999999744,
-          "markers": 8,
-          "corrected": 44,
+          "ms": 13.683500000002823,
+          "markers": 0,
+          "corrected": 45,
           "erasures": 48
         },
         {
@@ -461,8 +514,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 48.306790999999976,
-          "markers": 8,
+          "ms": 13.42804100000285,
+          "markers": 0,
           "corrected": 59,
           "erasures": 60
         },
@@ -471,28 +524,25 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.54733299999998,
-          "markers": 7,
-          "corrected": 11,
+          "ms": 52.390625,
+          "markers": 0,
+          "corrected": 12,
           "erasures": 12
         },
         {
           "scenario": "crop",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 44.129917000000205,
-          "markers": 3,
-          "corrected": 41,
-          "erasures": 46
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.02262500000006,
-          "markers": 8,
+          "ms": 127.45908300000156,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -501,8 +551,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 56.15187500000002,
-          "markers": 8,
+          "ms": 95.01350000000093,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -511,8 +561,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 204.65929099999994,
-          "markers": 8,
+          "ms": 591.8079169999983,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         }
@@ -526,8 +576,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 90.25125000000025,
-          "markers": 8,
+          "ms": 17.375625000000582,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -536,25 +586,48 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 11.050832999999784,
-          "markers": 7,
+          "ms": 9.927874999997584,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 0,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 8.892542000001413,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 9.660667000000103,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 15.0222079999985,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 88.64687499999991,
-          "markers": 8,
+          "ms": 26.868915999999444,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -563,38 +636,32 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 90.77074999999968,
-          "markers": 8,
+          "ms": 27.404459000001225,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 116.90562499999987,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 77.03108299999985,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 79.74549999999999,
-          "markers": 8,
+          "ms": 17.159209000001283,
+          "markers": 0,
           "corrected": 36,
           "erasures": 36
         },
@@ -603,8 +670,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 80.65058299999964,
-          "markers": 8,
+          "ms": 46.726584,
+          "markers": 0,
           "corrected": 78,
           "erasures": 80
         },
@@ -613,8 +680,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 67.68620800000008,
-          "markers": 8,
+          "ms": 16.98962499999834,
+          "markers": 0,
           "corrected": 99,
           "erasures": 100
         },
@@ -623,28 +690,25 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 81.22525000000041,
-          "markers": 7,
+          "ms": 15.72008299999652,
+          "markers": 0,
           "corrected": 16,
           "erasures": 16
         },
         {
           "scenario": "crop",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 76.65545799999927,
-          "markers": 3,
-          "corrected": 59,
-          "erasures": 60
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 88.24783399999978,
-          "markers": 8,
+          "ms": 49.0134169999983,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -653,8 +717,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 90.40637499999957,
-          "markers": 8,
+          "ms": 36.61054100000183,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -663,8 +727,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 216.35000000000036,
-          "markers": 8,
+          "ms": 887.075249999998,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -673,8 +737,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 86.61704199999986,
-          "markers": 8,
+          "ms": 26.66804200000115,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -683,25 +747,48 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 13.934624999999869,
-          "markers": 7,
+          "ms": 19.152083000000857,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 1,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 9.141250000000582,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 11.48804200000086,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 15.955291999998735,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 86.52158299999974,
-          "markers": 8,
+          "ms": 17.038250000001426,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -710,38 +797,32 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 83.47837499999969,
-          "markers": 8,
+          "ms": 16.46125000000029,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 115.83487500000047,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 75.00312500000018,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 79.1602499999999,
-          "markers": 8,
+          "ms": 16.78070800000205,
+          "markers": 0,
           "corrected": 36,
           "erasures": 36
         },
@@ -750,8 +831,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 81.88441700000021,
-          "markers": 8,
+          "ms": 41.52687499999956,
+          "markers": 0,
           "corrected": 78,
           "erasures": 80
         },
@@ -760,8 +841,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 67.73162499999944,
-          "markers": 8,
+          "ms": 16.922041000001627,
+          "markers": 0,
           "corrected": 99,
           "erasures": 100
         },
@@ -770,28 +851,25 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 81.63716699999986,
-          "markers": 7,
+          "ms": 15.989666000001307,
+          "markers": 0,
           "corrected": 16,
           "erasures": 16
         },
         {
           "scenario": "crop",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 75.83899999999994,
-          "markers": 3,
-          "corrected": 59,
-          "erasures": 60
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 88.54041700000016,
-          "markers": 8,
+          "ms": 110.73724999999831,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -800,8 +878,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 87.57154199999968,
-          "markers": 8,
+          "ms": 37.43695799999841,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -810,8 +888,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 212.66933299999982,
-          "markers": 8,
+          "ms": 880.1819579999974,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -820,8 +898,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 87.32700000000023,
-          "markers": 8,
+          "ms": 16.280917000000045,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -830,25 +908,48 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 13.450917000000118,
-          "markers": 7,
+          "ms": 8.543000000001484,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 2,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 7.58100000000195,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 9.18383299999914,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 14.876458000002458,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 85.45091700000012,
-          "markers": 8,
+          "ms": 16.67370800000208,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -857,38 +958,32 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 85.11570799999936,
-          "markers": 8,
+          "ms": 15.444250000000466,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 117.27762499999972,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 77.71237500000007,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 77.83679200000006,
-          "markers": 8,
+          "ms": 24.7309580000001,
+          "markers": 0,
           "corrected": 36,
           "erasures": 36
         },
@@ -897,9 +992,9 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 80.06999999999971,
-          "markers": 8,
-          "corrected": 76,
+          "ms": 67.65620900000067,
+          "markers": 0,
+          "corrected": 77,
           "erasures": 80
         },
         {
@@ -907,8 +1002,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 67.83316600000035,
-          "markers": 8,
+          "ms": 31.84425000000192,
+          "markers": 0,
           "corrected": 99,
           "erasures": 100
         },
@@ -917,28 +1012,25 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 81.44737500000065,
-          "markers": 7,
+          "ms": 17.634624999998778,
+          "markers": 0,
           "corrected": 16,
           "erasures": 16
         },
         {
           "scenario": "crop",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 75.70675000000028,
-          "markers": 3,
-          "corrected": 58,
-          "erasures": 60
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 90.96991700000035,
-          "markers": 8,
+          "ms": 56.1070830000026,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -947,8 +1039,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 88.15250000000015,
-          "markers": 8,
+          "ms": 35.76370799999859,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -957,8 +1049,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 214.10162500000024,
-          "markers": 8,
+          "ms": 879.5593749999971,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         }
@@ -972,8 +1064,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.397750000000087,
-          "markers": 8,
+          "ms": 12.84558300000208,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -982,106 +1074,105 @@
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "resize320",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
         },
         {
           "scenario": "blur06",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.522375000000466,
-          "markers": 8,
+          "ms": 27.836749999994936,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "blur12",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 25.359375,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 15
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "rotate37",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 45.74491699999908,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 23.5070829999986,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 22.916457999999693,
-          "markers": 8,
-          "corrected": 29,
-          "erasures": 35
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion20",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.125500000000102,
-          "markers": 7,
+          "ms": 12.685750000004191,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "crop",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 19.046332999998413,
-          "markers": 3,
-          "corrected": 2,
-          "erasures": 3
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.84362500000134,
-          "markers": 8,
+          "ms": 13.168957999994745,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1090,8 +1181,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 48.07612499999959,
-          "markers": 3,
+          "ms": 13.338416000005964,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1100,8 +1191,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 126.48366700000042,
-          "markers": 8,
+          "ms": 315.7862499999974,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1110,8 +1201,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.828874999999243,
-          "markers": 8,
+          "ms": 13.010291999999026,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1120,86 +1211,88 @@
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "resize320",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
         },
         {
           "scenario": "blur06",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.327957999999853,
-          "markers": 8,
+          "ms": 13.233625000000757,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "blur12",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 24.67554200000086,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 14
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "rotate37",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 47.9007500000007,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 23.28504200000134,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 23.741666000001715,
-          "markers": 8,
-          "corrected": 30,
-          "erasures": 35
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion20",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.681041000001642,
-          "markers": 7,
+          "ms": 13.01249999999709,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1208,18 +1301,18 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.676167000001442,
-          "markers": 3,
-          "corrected": 2,
-          "erasures": 3
+          "ms": 240.76033300000563,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "jpeg",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.911167000000205,
-          "markers": 8,
+          "ms": 19.107708000003186,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1228,8 +1321,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 47.2362090000006,
-          "markers": 3,
+          "ms": 13.418208000002778,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1238,8 +1331,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 127.02716700000019,
-          "markers": 8,
+          "ms": 422.54916599999706,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1248,8 +1341,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.789957999999388,
-          "markers": 8,
+          "ms": 13.205457999996725,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1258,86 +1351,88 @@
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "resize320",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "No readable shape found."
         },
         {
           "scenario": "blur06",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.632125000000087,
-          "markers": 8,
+          "ms": 20.417124999999942,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "blur12",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 25.40258299999914,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 17
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "rotate37",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 46.9557909999985,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 23.87658300000112,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 22.98554200000035,
-          "markers": 8,
-          "corrected": 31,
-          "erasures": 35
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion20",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.228167000001122,
-          "markers": 7,
+          "ms": 13.842624999997497,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1346,18 +1441,18 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.241125000000466,
-          "markers": 3,
-          "corrected": 2,
-          "erasures": 3
+          "ms": 251.98716599999898,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.188500000000204,
-          "markers": 8,
+          "ms": 12.81512500000099,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1366,8 +1461,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 47.67754099999911,
-          "markers": 3,
+          "ms": 12.774208000002545,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1376,8 +1471,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 125.71133400000144,
-          "markers": 8,
+          "ms": 455.3744999999981,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         }
@@ -1391,8 +1486,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 34.587665999999444,
-          "markers": 8,
+          "ms": 13.635416000004625,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1401,25 +1496,48 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 7.132583000000523,
-          "markers": 3,
+          "ms": 6.887624999995751,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 0,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.664874999994936,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 1
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.343541999995068,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.313709000001836,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 29.58391699999993,
-          "markers": 8,
+          "ms": 12.628040999996301,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1428,82 +1546,73 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 33.900792000000365,
-          "markers": 8,
+          "ms": 12.950208000002021,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 55.800083000000086,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 29.983249999999316,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 30.97808299999997,
-          "markers": 8,
-          "corrected": 33,
-          "erasures": 35
+          "ms": 19.414499999998952,
+          "markers": 0,
+          "corrected": 28,
+          "erasures": 33
         },
         {
           "scenario": "occlusion20",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 32.5887500000008,
-          "markers": 7,
+          "ms": 13.666292000001704,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 1
+          "erasures": 0
         },
         {
           "scenario": "crop",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 27.271749999999884,
-          "markers": 3,
-          "corrected": 1,
-          "erasures": 1
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.82970899999964,
-          "markers": 8,
+          "ms": 13.192084000002069,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1512,8 +1621,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 48.292874999999185,
-          "markers": 5,
+          "ms": 13.040124999999534,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1522,8 +1631,8 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 188.3685829999995,
-          "markers": 8,
+          "ms": 411.6182090000002,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1532,8 +1641,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 32.70854099999997,
-          "markers": 8,
+          "ms": 13.237249999998312,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1542,25 +1651,48 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 6.075666000000638,
-          "markers": 3,
+          "ms": 5.933375000000524,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 1,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.585583000000042,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.226834000000963,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.077624999998079,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "blur06",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 29.58075000000099,
-          "markers": 8,
+          "ms": 12.791624999998021,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1569,8 +1701,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.49304200000006,
-          "markers": 8,
+          "ms": 12.220832999999402,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1579,72 +1711,66 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 55.649750000000495,
-          "markers": 8,
+          "ms": 643.1148329999996,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "perspective",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 31.22112500000003,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 30.675042000000758,
-          "markers": 8,
-          "corrected": 30,
-          "erasures": 35
+          "ms": 13.87479099999473,
+          "markers": 0,
+          "corrected": 27,
+          "erasures": 33
         },
         {
           "scenario": "occlusion20",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.530667000000903,
-          "markers": 7,
+          "ms": 13.303541000001132,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "crop",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 26.879666999999245,
-          "markers": 3,
-          "corrected": 1,
-          "erasures": 1
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 30.898708000000624,
-          "markers": 8,
+          "ms": 13.505332999993698,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1653,8 +1779,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 51.149208000000726,
-          "markers": 5,
+          "ms": 12.855083999995259,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1663,8 +1789,8 @@
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 183.76479199999994,
-          "markers": 8,
+          "ms": 434.99158299999544,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1673,8 +1799,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.937208000001192,
-          "markers": 8,
+          "ms": 14.29612499999348,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1683,25 +1809,48 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 5.579499999999825,
-          "markers": 3,
+          "ms": 7.02362500000163,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 2,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.941333999988274,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 7.058250000001863,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.708708000005572,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 2
         },
         {
           "scenario": "blur06",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.381458000001658,
-          "markers": 8,
+          "ms": 19.857583000004524,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1710,8 +1859,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 29.205291999998735,
-          "markers": 8,
+          "ms": 19.252957999997307,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1720,72 +1869,66 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 54.340667000000394,
-          "markers": 8,
+          "ms": 628.0921669999952,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "perspective",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 31.646082999999635,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.08245900000111,
-          "markers": 8,
+          "ms": 13.379707999993116,
+          "markers": 0,
           "corrected": 30,
-          "erasures": 34
+          "erasures": 32
         },
         {
           "scenario": "occlusion20",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 33.17695800000001,
-          "markers": 7,
+          "ms": 13.64191700000083,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 1
+          "erasures": 0
         },
         {
           "scenario": "crop",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 26.446750000000975,
-          "markers": 3,
-          "corrected": 1,
-          "erasures": 1
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.25316600000042,
-          "markers": 8,
+          "ms": 13.88575000000128,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1794,8 +1937,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 45.98400000000038,
-          "markers": 5,
+          "ms": 14.07325000000128,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -1804,8 +1947,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 187.29862500000127,
-          "markers": 8,
+          "ms": 424.86420799999905,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         }
@@ -1819,358 +1962,412 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 34.642250000000786,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "resize480",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 4.862957999999708,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "resize320",
-          "sample": 0,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
-        },
-        {
-          "scenario": "blur06",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 30.482958000000508,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "blur12",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 28.092208000000028,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "rotate37",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 57.20316600000115,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "perspective",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 31.268792000000758,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "occlusion10",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 30.336374999998952,
-          "markers": 8,
-          "corrected": 32,
-          "erasures": 33
-        },
-        {
-          "scenario": "occlusion20",
-          "sample": 0,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
-        },
-        {
-          "scenario": "occlusion30",
-          "sample": 0,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
-        },
-        {
-          "scenario": "corner",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 34.92912499999875,
-          "markers": 7,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "crop",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 29.752292000001034,
-          "markers": 3,
+          "ms": 16.305583000008482,
+          "markers": 0,
           "corrected": 3,
-          "erasures": 4
-        },
-        {
-          "scenario": "jpeg",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 36.50987499999974,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "shadow",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 48.61970800000017,
-          "markers": 5,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "invert",
-          "sample": 0,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 160.93525000000045,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "clean",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 34.43320799999856,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "erasures": 8
         },
         {
           "scenario": "resize480",
-          "sample": 1,
+          "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 4.1637919999993755,
-          "markers": 8,
+          "ms": 7.22637499999837,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 7
         },
         {
           "scenario": "resize320",
-          "sample": 1,
-          "pass": false,
+          "sample": 0,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 6.2615829999995185,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 11
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 7.583041000005323,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 11
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.026125000003958,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 16
         },
         {
           "scenario": "blur06",
-          "sample": 1,
+          "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 32.66779200000019,
-          "markers": 8,
+          "ms": 20.461541999990004,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 8
         },
         {
           "scenario": "blur12",
-          "sample": 1,
+          "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.786957999998776,
-          "markers": 8,
+          "ms": 21.747333999999682,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 6
         },
         {
           "scenario": "rotate37",
-          "sample": 1,
+          "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 58.89500000000044,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 640.3624999999884,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 6
         },
         {
           "scenario": "perspective",
-          "sample": 1,
-          "pass": true,
+          "sample": 0,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 31.167083000000275,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
-          "sample": 1,
+          "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.086875000000873,
-          "markers": 8,
-          "corrected": 30,
-          "erasures": 32
-        },
-        {
-          "scenario": "occlusion20",
-          "sample": 1,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
-        },
-        {
-          "scenario": "occlusion30",
-          "sample": 1,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
-        },
-        {
-          "scenario": "corner",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 34.77466699999968,
-          "markers": 7,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "crop",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 29.111124999999447,
-          "markers": 3,
-          "corrected": 3,
-          "erasures": 4
-        },
-        {
-          "scenario": "jpeg",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 33.108000000000175,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "shadow",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 46.88429200000064,
-          "markers": 5,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "invert",
-          "sample": 1,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 158.01045800000065,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "clean",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 34.04533300000003,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "resize480",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 4.041124999999738,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "resize320",
-          "sample": 2,
-          "pass": false,
-          "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
-        },
-        {
-          "scenario": "blur06",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 31.454208999999537,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "blur12",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 27.89545899999939,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "rotate37",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 56.365875000001324,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "perspective",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 31.69341600000007,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
-        },
-        {
-          "scenario": "occlusion10",
-          "sample": 2,
-          "pass": true,
-          "wrongDecode": false,
-          "ms": 36.34266699999898,
-          "markers": 8,
+          "ms": 14.212707999991835,
+          "markers": 0,
           "corrected": 31,
+          "erasures": 34
+        },
+        {
+          "scenario": "occlusion20",
+          "sample": 0,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "occlusion30",
+          "sample": 0,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "corner",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.767500000001746,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 9
+        },
+        {
+          "scenario": "crop",
+          "sample": 0,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "jpeg",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.108791000006022,
+          "markers": 0,
+          "corrected": 2,
+          "erasures": 8
+        },
+        {
+          "scenario": "shadow",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 12.822958000004292,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 8
+        },
+        {
+          "scenario": "invert",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 481.8364169999986,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 8
+        },
+        {
+          "scenario": "clean",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 12.634749999997439,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "resize480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.455332999990787,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "resize320",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 4.979458000001614,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 2
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.593249999990803,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 1
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.1252499999973224,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 9
+        },
+        {
+          "scenario": "blur06",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.30045799999789,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "blur12",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.46600000000035,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "rotate37",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 676.5365830000082,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "perspective",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "occlusion10",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.962249999996857,
+          "markers": 0,
+          "corrected": 31,
+          "erasures": 34
+        },
+        {
+          "scenario": "occlusion20",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "occlusion30",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "corner",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.280333000002429,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "crop",
+          "sample": 1,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "jpeg",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.357334000000264,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "shadow",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 12.774875000002794,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "invert",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 562.3343339999992,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "clean",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 14.359249999994063,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 2
+        },
+        {
+          "scenario": "resize480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.834000000002561,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 4
+        },
+        {
+          "scenario": "resize320",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.459833000000799,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 11
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 7.5002499999973224,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 11
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 7.003207999994629,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 21
+        },
+        {
+          "scenario": "blur06",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.357334000000264,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "blur12",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.31350000000384,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "rotate37",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 681.0959580000053,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "perspective",
+          "sample": 2,
+          "pass": false,
+          "wrongDecode": false,
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
+        },
+        {
+          "scenario": "occlusion10",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 13.59337499999674,
+          "markers": 0,
+          "corrected": 27,
           "erasures": 33
         },
         {
@@ -2178,64 +2375,61 @@
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 34.83129100000042,
-          "markers": 7,
+          "ms": 13.045708000005106,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 2
         },
         {
           "scenario": "crop",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 27.644500000000335,
-          "markers": 3,
-          "corrected": 3,
-          "erasures": 4
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 33.10054200000013,
-          "markers": 8,
+          "ms": 14.570166000004974,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 2
         },
         {
           "scenario": "shadow",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 46.1434160000008,
-          "markers": 5,
+          "ms": 12.773042000000714,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 2
         },
         {
           "scenario": "invert",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 161.92300000000068,
-          "markers": 8,
+          "ms": 601.8291670000035,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 2
         }
       ]
     },
@@ -2247,314 +2441,377 @@
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.489833999999973,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 13.462291999996523,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 6
         },
         {
           "scenario": "resize480",
           "sample": 0,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "ms": 7.27324999999837,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 4
         },
         {
           "scenario": "resize320",
           "sample": 0,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.878292000008514,
+          "markers": 0,
+          "corrected": 2,
+          "erasures": 4
+        },
+        {
+          "scenario": "print600",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.975124999997206,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 6
+        },
+        {
+          "scenario": "print480",
+          "sample": 0,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 5.929415999999037,
+          "markers": 0,
+          "corrected": 4,
+          "erasures": 7
         },
         {
           "scenario": "blur06",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.633458000000246,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 13.224333999998635,
+          "markers": 0,
+          "corrected": 2,
+          "erasures": 5
         },
         {
           "scenario": "blur12",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.873583000000508,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 11.938374999997905,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 5
         },
         {
           "scenario": "rotate37",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 45.56541700000162,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 510.687791999997,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 6
         },
         {
           "scenario": "perspective",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 23.801958000000013,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.39995899999849,
-          "markers": 8,
-          "corrected": 24,
-          "erasures": 27
+          "ms": 13.679833999995026,
+          "markers": 0,
+          "corrected": 27,
+          "erasures": 30
         },
         {
           "scenario": "occlusion20",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 25.514290999999503,
-          "markers": 8,
-          "corrected": 31,
-          "erasures": 36
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion30",
           "sample": 0,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.74812500000189,
-          "markers": 7,
-          "corrected": 2,
-          "erasures": 2
+          "ms": 19.773375000004307,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 7
         },
         {
           "scenario": "crop",
           "sample": 0,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 21.91829200000211,
-          "markers": 3,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.800458000001527,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 14.141709000003175,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 6
         },
         {
           "scenario": "shadow",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 44.36275000000023,
-          "markers": 5,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 14.52470799999719,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 6
         },
         {
           "scenario": "invert",
           "sample": 0,
           "pass": true,
           "wrongDecode": false,
-          "ms": 136.17070800000147,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 377.5901659999945,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 6
         },
         {
           "scenario": "clean",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.91912500000035,
-          "markers": 8,
+          "ms": 12.932874999998603,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 1
         },
         {
           "scenario": "resize480",
           "sample": 1,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "ms": 6.5413750000006985,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 1
         },
         {
           "scenario": "resize320",
           "sample": 1,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.636916999996174,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 2
+        },
+        {
+          "scenario": "print600",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.8127499999973224,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 1
+        },
+        {
+          "scenario": "print480",
+          "sample": 1,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 5.991750000001048,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 2
         },
         {
           "scenario": "blur06",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.3627919999999,
-          "markers": 8,
+          "ms": 12.103000000002794,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 1
         },
         {
           "scenario": "blur12",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.283041999999114,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 12.259625000006054,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 1
         },
         {
           "scenario": "rotate37",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 46.74420899999677,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 532.2803750000021,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 1
         },
         {
           "scenario": "perspective",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 24.48145800000202,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.916833999999653,
-          "markers": 8,
+          "ms": 13.140916999996989,
+          "markers": 0,
           "corrected": 24,
-          "erasures": 27
+          "erasures": 25
         },
         {
           "scenario": "occlusion20",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.941875000000437,
-          "markers": 8,
-          "corrected": 35,
-          "erasures": 36
+          "ms": 18.28733400000783,
+          "markers": 0,
+          "corrected": 34,
+          "erasures": 35
         },
         {
           "scenario": "occlusion30",
           "sample": 1,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.014584000000468,
-          "markers": 7,
-          "corrected": 2,
+          "ms": 13.48154200000863,
+          "markers": 0,
+          "corrected": 1,
           "erasures": 2
         },
         {
           "scenario": "crop",
           "sample": 1,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 19.84954199999993,
-          "markers": 3,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 38.016749999998865,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "ms": 13.935624999998254,
+          "markers": 0,
+          "corrected": 1,
+          "erasures": 1
         },
         {
           "scenario": "shadow",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 52.108500000002095,
-          "markers": 5,
+          "ms": 13.257291999994777,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 1
         },
         {
           "scenario": "invert",
           "sample": 1,
           "pass": true,
           "wrongDecode": false,
-          "ms": 137.84987499999988,
-          "markers": 8,
+          "ms": 361.76437499999884,
+          "markers": 0,
           "corrected": 0,
-          "erasures": 0
+          "erasures": 1
         },
         {
           "scenario": "clean",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.117332999998325,
-          "markers": 8,
+          "ms": 13.189416999986861,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "resize480",
           "sample": 2,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "ms": 5.788542000009329,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
         },
         {
           "scenario": "resize320",
           "sample": 2,
-          "pass": false,
+          "pass": true,
           "wrongDecode": false,
-          "error": "Found 0 of at least 3 required reference marks. Try a larger, sharper image."
+          "ms": 5.569083000009414,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print600",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.298458000004757,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 0
+        },
+        {
+          "scenario": "print480",
+          "sample": 2,
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 6.304708000010578,
+          "markers": 0,
+          "corrected": 0,
+          "erasures": 1
         },
         {
           "scenario": "blur06",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.015833000001294,
-          "markers": 8,
+          "ms": 12.28049999999348,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -2563,85 +2820,76 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.172875000000204,
-          "markers": 8,
+          "ms": 12.382083000004059,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
         {
           "scenario": "rotate37",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 45.71733400000085,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "perspective",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 24.965667000000394,
-          "markers": 8,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "occlusion10",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.35124999999971,
-          "markers": 8,
-          "corrected": 25,
-          "erasures": 27
+          "ms": 19.224583000002895,
+          "markers": 0,
+          "corrected": 19,
+          "erasures": 21
         },
         {
           "scenario": "occlusion20",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.34820800000307,
-          "markers": 8,
-          "corrected": 35,
-          "erasures": 36
+          "ms": 18.845916999998735,
+          "markers": 0,
+          "corrected": 33,
+          "erasures": 35
         },
         {
           "scenario": "occlusion30",
           "sample": 2,
           "pass": false,
           "wrongDecode": false,
-          "error": "Too much damage in an error-correction block"
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "corner",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.514500000001135,
-          "markers": 7,
-          "corrected": 2,
-          "erasures": 2
+          "ms": 13.139666000002762,
+          "markers": 0,
+          "corrected": 3,
+          "erasures": 3
         },
         {
           "scenario": "crop",
           "sample": 2,
-          "pass": true,
+          "pass": false,
           "wrongDecode": false,
-          "ms": 19.905249999999796,
-          "markers": 3,
-          "corrected": 0,
-          "erasures": 0
+          "error": "The shape could not be aligned or verified. Try a larger, sharper, straight-on image with the outer shape visible."
         },
         {
           "scenario": "jpeg",
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.280416000001424,
-          "markers": 8,
+          "ms": 13.635500000003958,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -2650,8 +2898,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 46.10491700000057,
-          "markers": 5,
+          "ms": 12.698208000001614,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         },
@@ -2660,8 +2908,8 @@
           "sample": 2,
           "pass": true,
           "wrongDecode": false,
-          "ms": 137.91008400000283,
-          "markers": 8,
+          "ms": 406.8187089999992,
+          "markers": 0,
           "corrected": 0,
           "erasures": 0
         }

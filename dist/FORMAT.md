@@ -1,6 +1,6 @@
-# RS Code v2 experimental format
+# RS Code v3 experimental format
 
-The committed source defines this experimental format. v2 replaces the four organic geometries and changes their capacities; v1 codes must be regenerated.
+The committed source defines this experimental format. v3 removes all corner locators and adds protected whole-shape variation. v1/v2 codes must be regenerated.
 
 ## Geometry
 
@@ -10,7 +10,11 @@ Weave/Pebble have logical dimensions 24, 36, 52, 72 for size IDs 0–3. The orga
 
 `src/organic.js` constructs whole carrier shapes: deterministic recursive branches; a multi-strand parametric knot; deformed oval ridge contours; and a fixed 26-star graph. Carrier paths are sampled by arc length. Candidate data positions are rejected if another carrier is too close to the two possible sample positions. The remaining positions are selected deterministically across the shape. A bit deflects its path section to either side of the normal, with a sin² envelope that returns to the original path at the endpoints. The decoder samples the corresponding paired positions. Unselected sections remain continuous undecorated paths. This is geometric encoding, not a payload hidden in SVG metadata.
 
-Weave and Pebble retain their original glyph alphabets. Eight 36-unit square locators identify type, size, protection and reference position through the committed 768-word codebook. The 25-bit locator codebook separates rotated/reflected words by at least five bits; recognition accepts at most two interior bit errors. Four centres fit a homography; three use oriented corners, with an affine fallback. Insufficient or ambiguous geometry is rejected.
+Weave and Pebble retain their glyph alphabets but no longer carry external locator symbols. `src/registration.js` ranks whole-shape hypotheses by sampled optical contrast, attempts complete-frame transforms, fits silhouette bounds, and searches/refines rotation, reflection, scale and translation. Accepted candidates must pass RS and CRC checks. The current transform search is similarity-based, not general perspective recovery. Crop and perspective support regressed relative to v2 and the benchmark records those failures.
+
+The four organic languages use two bits at whitened stream positions `64 × blockCount` and the following position to select one of four whole-shape variants. These correspond to protected bits of the message-group checksum. Their original local path slots are rendered neutral and the reader supplies those bits from each tested geometric hypothesis. This moves two existing code bits into structure; it does **not** increase advertised net payload capacity. The other local paths still carry the remainder of the protected frame. Two messages can share the same coarse variant; they do not thereby share a payload.
+
+Fingerprint and Constellation use wider deflections and a full allocation of path sections. Ridge displacement is capped by inter-ridge spacing to avoid merging neighbouring lines. Star-link data begins away from the bright star centres to avoid optical overlap. Coral and Knot retain clearance-based slot selection.
 
 ## Capacity and framing
 
@@ -21,7 +25,7 @@ All integers are big-endian. Header offsets:
 | Offset | Length | Field |
 |---:|---:|---|
 | 0 | 2 | ASCII RS |
-| 2 | 1 | Version 2 |
+| 2 | 1 | Version 3 |
 | 3 | 1 | Type ID |
 | 4 | 1 | Size ID |
 | 5 | 1 | Protection ID |
@@ -41,6 +45,6 @@ At most p erasures, or floor(p/2) unknown errors, can be corrected in a block; m
 
 ## Evaluation
 
-Tests rasterize exported SVG and read pixels with the production reader. Every supported format is exercised with a full-capacity binary payload. The separate benchmark runs three messages through 15 conditions and records successes and failures. Masks cover fractions of the bounding data area, not codewords; the same mask can remove very different numbers of bits from different shapes. Native image dimensions increased in v2 to retain fine geometry. Downsampled failures are expected and are shown, not suppressed.
+Tests rasterize exported SVG and read pixels with the production reader. Every supported format is exercised with a full-capacity binary payload. The separate benchmark runs three messages through 17 conditions and records successes and failures. Masks cover fractions of the bounding data area, not codewords; the same mask can remove very different numbers of bits from different shapes. Native image dimensions increased in v2 to retain fine geometry. Downsampled failures are expected and are shown, not suppressed.
 
 No physical camera/print reliability claim is made. This is not ISO QR, and ordinary QR scanners will not recognise it. QR-specific compression/ECI/GS1 features are absent. Backgrounds, glare, curved surfaces and large negative-image corpora require further testing. See [DENSO's description of codeword correction](https://www.qrcode.com/en/about/error_correction.html) for the distinction between correction budgets and arbitrary missing image regions.
