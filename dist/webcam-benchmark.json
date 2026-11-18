@@ -1,7 +1,19 @@
 {
-  "method": "Synthetic camera frames; S/Strong, 1280×960, offset phone-sized code, projective transforms, blur, lighting, JPEG and periodic interference. Not a physical webcam/phone evaluation.",
+  "format": "RS Code v6",
+  "method": "Synthetic S/Strong camera captures and a required 360-pixel rotated, blurred and partially covered read on white paper.",
   "samples": 3,
   "scenarios": [
+    {
+      "id": "combined",
+      "name": "360 px · 37° rotation + blur σ 0.9 px + 6% covered",
+      "required": true,
+      "captureWidth": 360,
+      "damage": {
+        "angle": 37,
+        "blur": 0.9,
+        "cover": 0.06
+      }
+    },
     {
       "id": "offset",
       "name": "Phone within a larger frame",
@@ -98,6 +110,62 @@
         ],
         "blur": 0.65
       }
+    },
+    {
+      "id": "inkspread",
+      "name": "Oblique print with ink spread",
+      "options": {
+        "quad": [
+          [
+            305,
+            135
+          ],
+          [
+            1020,
+            310
+          ],
+          [
+            810,
+            832
+          ],
+          [
+            360,
+            701
+          ]
+        ],
+        "print": "spread",
+        "blur": 0.65,
+        "shadow": true,
+        "jpeg": true
+      }
+    },
+    {
+      "id": "inkloss",
+      "name": "Oblique print with ink loss",
+      "options": {
+        "quad": [
+          [
+            312,
+            240
+          ],
+          [
+            929,
+            125
+          ],
+          [
+            1000,
+            685
+          ],
+          [
+            400,
+            839
+          ]
+        ],
+        "print": "loss",
+        "blur": 0.65,
+        "shadow": true,
+        "jpeg": true
+      }
     }
   ],
   "results": [
@@ -106,129 +174,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 178.60649999999998
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 682.1285
+          "ms": 64.623333
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 53.28858300000002
+          "ms": 45.18895799999996
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 51.107249999999794
+          "ms": 24.001375000000053
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.32637499999987
+          "ms": 19.75908299999992
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.942209000000048
+          "ms": 33.858749999999986
         },
         {
           "sample": 0,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 40.28970900000013
+          "ms": 57.58883400000002
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.8845409999999
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.904374999999845
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.282375000000002
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 30.403999999999996
+          "ms": 20.148249999999962
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.00391599999989
+          "ms": 37.596457999999984
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.446917000000212
+          "ms": 25.27220800000009
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.337958999999955
+          "ms": 21.993584000000055
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 20.21945800000003
+          "ms": 20.8715830000001
         },
         {
           "sample": 1,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 29.85545900000011
+          "ms": 22.390500000000202
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 33.79150000000004
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.469042000000172
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 106.47183300000006
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.031875000000127
+          "ms": 21.579416000000037
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.057999999999993
+          "ms": 19.99066700000003
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.464457999999922
+          "ms": 18.084959000000254
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.59429199999977
+          "ms": 18.326000000000022
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.50970899999993
+          "ms": 18.254459000000224
         },
         {
           "sample": 2,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.69066699999985
+          "ms": 21.33416699999998
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.128999999999905
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.322667000000365
         }
       ]
     },
@@ -237,129 +368,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 185.52920799999993
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.38120899999967
+          "ms": 29.36070800000016
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.693083000000115
+          "ms": 19.223457999999937
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.24112500000001
+          "ms": 18.436333000000104
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.237082999999984
+          "ms": 18.617707999999766
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.02187499999991
+          "ms": 18.216457999999875
         },
         {
           "sample": 0,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 17.782500000000255
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 17.247292000000016
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 34.762291000000005
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 103.4473339999995
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 48.89449999999988
+          "ms": 19.341457999999875
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 40.47275000000036
+          "ms": 19.05250000000069
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.22395800000004
+          "ms": 27.15850000000046
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.045082999999977
+          "ms": 22.882166999999754
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.56966599999987
+          "ms": 20.075458000000253
         },
         {
           "sample": 1,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.686249999999745
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.331874999999854
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.978124999999636
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 10.372166000000107
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.93720899999971
+          "ms": 19.140417000000525
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.737041999999747
+          "ms": 18.526458000000275
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.930875000000015
+          "ms": 21.769416000000092
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.918416999999863
+          "ms": 21.549999999999272
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.109832999999526
+          "ms": 21.563500000000204
         },
         {
           "sample": 2,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.062707999999475
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.154499999999643
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.29412499999944
         }
       ]
     },
@@ -368,129 +562,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 186.15270899999996
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.617874999999913
+          "ms": 23.556416999999783
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.56879200000003
+          "ms": 21.167250000000422
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.37249999999949
+          "ms": 20.96362500000032
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.67108300000018
+          "ms": 20.784332999999606
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.473041999999623
+          "ms": 21.873665999999503
         },
         {
           "sample": 0,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 15.598332999999911
+          "ms": 28.051000000000386
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 34.2509170000003
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.831916000000092
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 2316.3619169999993
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.928874999999607
+          "ms": 28.131459000000177
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.858083999999508
+          "ms": 19.373708999999508
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.326250000000073
+          "ms": 24.886083999999755
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.279999999999745
+          "ms": 23.46037499999875
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 18.568333000000166
+          "ms": 22.30670800000007
         },
         {
           "sample": 1,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 15.302208000000064
+          "ms": 18.81720800000039
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.263291000001118
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 27.264209000000847
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 2322.3077080000003
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.069542000000183
+          "ms": 20.407750000000306
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.507666999999856
+          "ms": 20.844332999999097
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.10029200000008
+          "ms": 19.570834000000104
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 22.765041999999994
+          "ms": 21.09516700000131
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 18.74779099999978
+          "ms": 19.292375000000902
         },
         {
           "sample": 2,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 16.928915999999845
+          "ms": 18.49041699999907
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.759000000000015
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.387040999999954
         }
       ]
     },
@@ -499,129 +756,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 545.0545829999992
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.64850000000024
+          "ms": 37.24304200000006
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 30.554958000000624
+          "ms": 25.461708000000726
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.71837500000038
+          "ms": 28.174457999999504
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.06708299999991
+          "ms": 27.470124999999825
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.221542000000227
+          "ms": 22.980875000001106
         },
         {
           "sample": 0,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.309166999999434
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 26.033832999999504
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.52416699999958
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 1443.6335419999996
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.262040999999954
+          "ms": 32.569541999997455
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.9556249999996
+          "ms": 25.765125000001717
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.29424999999992
+          "ms": 23.695457999998325
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.139916999999514
+          "ms": 22.848541999999725
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.021959000000606
+          "ms": 22.261916999999812
         },
         {
           "sample": 1,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 54.8391249999986
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 49.96720799999821
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 22.863375000000815
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 1018.1507500000007
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.067958000001454
+          "ms": 27.555334000000585
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.62712499999907
+          "ms": 24.014791999998124
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.342124999999214
+          "ms": 22.316915999999765
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.37554099999943
+          "ms": 22.360916000001453
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.77824999999939
+          "ms": 26.379957999997714
         },
         {
           "sample": 2,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 66.61412500000006
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 25.338041999999405
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.490834000000177
         }
       ]
     },
@@ -630,129 +950,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 1277.9761670000007
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.48449999999866
+          "ms": 24.5836249999993
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.260874999999942
+          "ms": 22.332624999999098
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 31.426292000000103
+          "ms": 25.871750000002066
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.169541999999637
+          "ms": 22.044958999998926
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 21.135207999999693
+          "ms": 20.639832999997452
         },
         {
           "sample": 0,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 16.071374999999534
+          "ms": 20.66687499999898
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.40100000000166
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 31.329499999999825
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 200.48366700000042
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.259792000000743
+          "ms": 22.087791999998444
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.8662089999998
+          "ms": 21.50025000000096
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.564041999999972
+          "ms": 22.184291000001394
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.015542000001005
+          "ms": 20.51379199999792
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 20.302625000000262
+          "ms": 19.49225000000297
         },
         {
           "sample": 1,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 16.64654199999859
+          "ms": 18.71966700000121
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.01091599999927
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.034875000001193
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 83.72245800000019
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.534749999998894
+          "ms": 26.34887499999968
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.433415999999852
+          "ms": 23.074209000002156
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.809916000000158
+          "ms": 24.94720800000141
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.901291999998648
+          "ms": 21.088957999996637
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 20.23333300000013
+          "ms": 21.98920899999939
         },
         {
           "sample": 2,
           "scenario": "small",
           "pass": true,
           "wrongDecode": false,
-          "ms": 16.111666000000696
+          "ms": 23.567708000002312
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 23.093583000001672
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.930333000000246
         }
       ]
     },
@@ -761,129 +1144,192 @@
       "rows": [
         {
           "sample": 0,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 45.47770799999853
+        },
+        {
+          "sample": 0,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.509749999999258
+          "ms": 19.762917000000016
         },
         {
           "sample": 0,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 24.263166999999157
+          "ms": 22.43345799999952
         },
         {
           "sample": 0,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.840166999998473
+          "ms": 21.533000000003085
         },
         {
           "sample": 0,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.758499999999913
+          "ms": 21.945583000000624
         },
         {
           "sample": 0,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.138041999998677
+          "ms": 22.014499999997497
         },
         {
           "sample": 0,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.335375000002387
+        },
+        {
+          "sample": 0,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.418125000000146
+        },
+        {
+          "sample": 0,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 20.98662499999773
+        },
+        {
+          "sample": 1,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 156.3897500000021
         },
         {
           "sample": 1,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 27.71891599999981
+          "ms": 19.6942080000008
         },
         {
           "sample": 1,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.69470900000124
+          "ms": 19.580916999999317
         },
         {
           "sample": 1,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.34516700000131
+          "ms": 19.20941600000151
         },
         {
           "sample": 1,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 25.367541999999958
+          "ms": 18.999665999999706
         },
         {
           "sample": 1,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.412250000001222
+          "ms": 18.87054100000023
         },
         {
           "sample": 1,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.377291999997396
+        },
+        {
+          "sample": 1,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.446500000001834
+        },
+        {
+          "sample": 1,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.02020899999843
+        },
+        {
+          "sample": 2,
+          "scenario": "combined",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.82487499999843
         },
         {
           "sample": 2,
           "scenario": "offset",
           "pass": true,
           "wrongDecode": false,
-          "ms": 28.424208000000363
+          "ms": 19.733083000002807
         },
         {
           "sample": 2,
           "scenario": "tilted",
           "pass": true,
           "wrongDecode": false,
-          "ms": 29.639750000000276
+          "ms": 24.437417000001005
         },
         {
           "sample": 2,
           "scenario": "shadow",
           "pass": true,
           "wrongDecode": false,
-          "ms": 26.000457999998616
+          "ms": 19.92570799999885
         },
         {
           "sample": 2,
           "scenario": "moire",
           "pass": true,
           "wrongDecode": false,
-          "ms": 23.17699999999968
+          "ms": 21.690042000001995
         },
         {
           "sample": 2,
           "scenario": "medium",
           "pass": true,
           "wrongDecode": false,
-          "ms": 19.713292000000365
+          "ms": 22.398165999999037
         },
         {
           "sample": 2,
           "scenario": "small",
-          "pass": false,
-          "error": "Code located. Move closer and hold steady; the data is not sharp enough yet.",
-          "found": 4
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 19.104040999998688
+        },
+        {
+          "sample": 2,
+          "scenario": "inkspread",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 21.398083000000042
+        },
+        {
+          "sample": 2,
+          "scenario": "inkloss",
+          "pass": true,
+          "wrongDecode": false,
+          "ms": 18.62474999999904
         }
       ]
     }

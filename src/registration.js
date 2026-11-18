@@ -3,8 +3,8 @@ import {findLandmarkFrames,contentHomography} from './landmark-reader.js';
 // Every candidate must pass Reed–Solomon and CRC validation.
 import {organicLayout} from './organic.js';
 import {logicalGrid,shapeOffset} from './format.js';
-import {geometry,probes,dataPoint,PAD,CELL} from './render.js';
-import {grayscale,readRegistered} from './vision.js';
+import {geometry,probes,dataPoint,PAD,CELL} from './v4-render.js';
+import {grayscale,readLegacyRegistered as readRegistered} from './vision.js';
 const templates=[];
 let prepared=false;
 function prepare(){if(prepared)return;templates.length=0;for(let type=0;type<6;type++)for(let size=0;size<4;size++)for(let variant=0;variant<(type>=2?4:1);variant++){
@@ -21,11 +21,11 @@ function refine(p,t,g,w,h){let best={...p},value=score(best,t,g,w,h,true);for(co
  let improved=false;for(const key of ['angle','x','y','scale'])for(const sign of [-1,1]){let q={...best};q[key]+=sign*(key==='scale'?step*.002*best.scale:key==='angle'?step:step);const v=score(q,t,g,w,h,true);if(v>value){best=q;value=v;improved=true;}}if(!improved)break;
  }return{...best,score:value};}
 function attempt(p,t,g,image,started){const H=matrix(p,t);for(const level of [2,1,3,0])try{const result=readRegistered(image,g,H,{type:t.type,size:t.size,level,variant:t.variant});return{...result,registration:'whole shape',markers:0,elapsedMs:performance.now()-started};}catch{}return null;}
-export function decodeImage(image,{quick=false,camera=false}={}){
- const started=performance.now(),base=grayscale(image);let cameraError=null,dark=0;for(let i=0;i<base.length;i+=4)if(base[i]<160)dark++;if(dark<8)throw Error('No readable shape found.');prepare();
+export function decodeLegacyImage(image,{quick=false,camera=false,gray=null,detections=[]}={}){
+ const started=performance.now(),base=gray??grayscale(image);let cameraError=null,dark=0;for(let i=0;i<base.length;i+=4)if(base[i]<160)dark++;if(dark<8)throw Error('No readable shape found.');prepare();
  for(const invert of [false,true]){
   const g=invert?base.map(v=>255-v):base,w=image.width,h=image.height,candidates=[];
-  const located=findLandmarkFrames(image,g);
+  const located=detections[Number(invert)]??findLandmarkFrames(image,g);
   if(located.frames.length){
    const ranked=[];
    for(const frame of located.frames)for(const t of templates){const H=contentHomography(frame.H,t.width);let sum=0;for(const pair of t.coarse){const values=pair.map(([x,y])=>{const z=H[6]*x+H[7]*y+H[8];return pixel(g,w,h,(H[0]*x+H[1]*y+H[2])/z,(H[3]*x+H[4]*y+H[5])/z);});sum+=Math.max(...values)-Math.min(...values);}ranked.push({frame,t,H,score:sum/t.coarse.length});}

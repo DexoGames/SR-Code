@@ -1,25 +1,29 @@
-# RS Code v4 experimental format
+# RS Code v6 experimental format
 
-The committed source defines this experimental format. v4 adds themed landmarks and replaces fine data deflections with larger structural states. Earlier codes must be regenerated.
+The generator writes version 6. The reader retains v4 and v5 optical layouts and validates the wire version. Capacities, Reed–Solomon profiles and multipart framing are shared across the three versions.
 
-## Geometry and local alphabets
+## Optical geometry
 
-Type IDs: Weave 0, Pebble 1, Coral 2, Knot 3, Fingerprint 4, Constellation 5. Sizes 0–3 use Weave/Pebble logical dimensions 24, 36, 52, 72. The other languages use N = 24, 28, 32, 36. These are packing dimensions, not necessarily physical grids.
+Exports use a 1000-unit drawing plane and native widths of 968, 1400, 1976 and 2696 pixels. The nominal pattern field spans 920 units. N is 24, 36, 52 or 72 for Weave and Pebble, and 24, 28, 32 or 36 for the other styles.
 
-- Weave: N² sites, one bit per curved connection state.
-- Pebble: N² sites, two bits per opening position. Stones have deterministic varied radii and staggered centres. Size variation is decorative.
-- Coral: N² golden-angle-distributed branch nodes connected into a sea-fan tree. Each tip chooses one of two directions, selected with clearance from the static branches. One bit per tip.
-- Knot: N²/2 sites on a polar rosette. Each two-bit state selects one of two over–under crossings or two paired turns. White underpass gaps distinguish crossing order.
-- Fingerprint: N²/2 sites allocated along oval ridges, excluding three core ridges. Each two-bit state selects one of four gap positions in its section. Gap half-width is 0.085 of the section; ridge stroke is 0.29 of radial spacing.
-- Constellation: N²/4 stars. Two bits choose among four star positions (±0.17 local spacing on each axis); two bits switch two unique nearby edges. Edges follow the actual chosen star endpoints. The decoder first estimates star positions, then samples possible links. Ambiguous positions erase their bits and incident link decisions. Triangles, chains and loops result from these edge choices; they are not counted as additional independent bits. Invisible drawing order carries no data.
+| ID | Style | Optical data | Registration features |
+|---|---|---|---|
+| 0 | Weave | N² binary turns in continuous yarns | Four closed loops formed by ordinary adjacent turns |
+| 1 | Pebble | 2N² bits in opening positions and four-site mergers | Round stones with off-centre openings |
+| 2 | Coral | Four selectable rib lengths per cup | The scalloped openings of mature corallites |
+| 3 | Knot | N²/2 crossings in rope traversal order, each early or late and over or under | Three lobe windows and the central opening of the trefoil |
+| 4 | Fingerprint | N²/2 sections with four positions for a fork or opening | Four bifurcations that rejoin the outer ridge |
+| 5 | Constellation | Two position bits for each of ceil(0.345N²) movable stars. Each remaining bit selects a distinct legal link. | Wishing star, five-point star, sunburst and ringed planet |
 
-Export widths are 968, 1400, 1976 and 2696 units. Payload geometry is scaled to 72% and inset 14% on each axis. Four themed corner motifs sit at normalized centres (0.075,0.075), (0.925,0.075), (0.925,0.925), (0.075,0.925). Their common circular reference radius is 0.038 of image width. An inner white radius of 0.74 and pupil radii 0.12/0.28/0.44/0.60 of the reference radius identify the corners. Surrounding decoration follows the selected language. Quiet halos protect detection.
+Weave reserves naturally closed curves. Pebble packs regular stones first and dedicates four normal footprints to each possible merger. A merged stone carries its opening directly. An unmerged group repeats the opening on its four stones. Knot assigns addresses along closed cords and leaves smooth runs through the central overpasses. The final four styles derive their geometry variants from two protected stream bits at offset 64 × blockCount.
 
-`src/landmark-reader.js` extracts enclosed white regions at global/adaptive thresholds, fits ellipses to their boundaries, checks radial profiles, and groups four corner IDs. It rejects implausible quadrilaterals and fits a homography. `src/registration.js` ranks format, size and macro-shape candidates; accepted data must pass RS and CRC checks. Camera mode requires all four detected motifs. Uploaded images may also use the legacy whole-shape similarity search. Four corner correspondences support projective alignment; this is not curved-surface recovery.
+Constellation orders star centres and link midpoints in concentric bands, each 1.6 times the nominal star spacing in width. Within a band it sorts by polar angle from the drawing centre. Both position bits of a star stay together, so a covered patch tends to affect fewer codewords. Four different guide silhouettes contain light windows for registration. The reader also tries the original v6 triangular guides and their original bit ordering.
 
-## Protected overall shape
+Constellation checks each proposed edge at both ends against every existing neighbour, enumerating the allowed positions of all three stars. Every pair of incident links in a generated code makes an angle of at least 30° in the drawing plane. The graph construction also reserves clearance from unrelated stars and edges. Fixed artwork, permanent links and all possible data links participate in these constraints. Perspective can compress the apparent angle in a photograph.
 
-The four organic languages use two bits at whitened stream positions `64 × blockCount` and the next position to choose one of four overall geometries. These correspond to protected message-group checksum bits. Their original local slots are neutral; the reader supplies them from each geometry hypothesis. This moves two existing bits into structure, without increasing net capacity. Different messages can share a macro variant while their remaining symbols differ.
+## Registration
+
+The geometry and optical samplers live in `src/native/`. Each layout describes ink islands or enclosed paper windows in its own artwork. The reader proposes alignments from image or page bounds and from corresponding connected components. It refines page edges and native contours, measures ink and paper locally, then samples the data. The recovered header, error correction and CRC verify each format hypothesis. Earlier ring-based codes retain their corresponding readers.
 
 ## Camera snapshots
 
@@ -34,7 +38,7 @@ All integers are big-endian. Header offsets:
 | Offset | Length | Field |
 |---:|---:|---|
 | 0 | 2 | ASCII RS |
-| 2 | 1 | Version 4 |
+| 2 | 1 | Version 6 |
 | 3 | 1 | Type ID |
 | 4 | 1 | Size ID |
 | 5 | 1 | Protection ID |
@@ -54,6 +58,6 @@ At most p erasures, or floor(p/2) unknown errors, can be corrected in a block; m
 
 ## Evaluation
 
-Tests rasterize exported SVG and decode actual pixels using the production reader. All 96 language/size/protection combinations are exercised at full payload capacity. The image benchmark uses three messages across 17 conditions. The separate camera benchmark embeds S/Strong codes in 1280×960 scenes with perspective, blur, illumination gradients, JPEG and periodic interference. Held-out tilted frames and an independently moving snapshot burst are also unit tested.
+The tests rasterize actual SVG exports and read their pixels. They cover all 96 combinations of style, size and protection at full capacity, mirrored images, v4/v5 compatibility, a moving snapshot burst, obscured native features, small tilted codes and faded oblique prints. A code containing only a few guide stones must fail verification.
 
-Masks cover fractions of the bounding payload area, not codewords. A missing landmark can prevent registration regardless of the surviving error-correction budget. Synthetic outcomes do not establish physical camera or print reliability. Glare, curved surfaces, motion blur, real screen interference and large negative-image corpora need further evaluation. This is not ISO QR; ordinary QR readers cannot decode it. QR-specific compression/ECI/GS1 conventions are absent.
+The image benchmark uses three messages per style across 17 alterations. Its centred masks cover a fraction of the nominal pattern field. The camera benchmark uses three messages per style across nine captures, including oblique, faded prints with simulated ink gain or loss. A required case combines a 37° rotation, 0.9-pixel blur and 6% cover at 360 pixels for every style. Unit tests also mask individual Constellation guides and exercise all four layout variants. Compare in the app shows the measured successes and failures. Physical printer and camera performance, curved surfaces and severe glare require separate trials.

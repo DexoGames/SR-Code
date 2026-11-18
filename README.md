@@ -1,15 +1,17 @@
-# RS Code lab · v4
+# RS Code lab · v6
 
-A browser-local generator and pixel reader for six experimental optical languages, styled for dexo.games. All messages are read from pixels; there is no SVG payload or server lookup.
+A browser-local generator and pixel reader for six optical styles. Each style uses features of its own artwork for alignment. The app exports PNG or SVG, reads images and camera frames, and supports multipart text and files. The reader also accepts v4 and v5 exports.
 
-- **Weave:** two thick curved connection states.
-- **Pebble:** varied, staggered stones; four opening positions carry two bits. Stone sizes are decorative, not additional capacity.
-- **Coral:** a sea-fan tree whose larger branch tips choose between two directions.
-- **Knot:** four strand routings per site: two over–under crossings and two turning pairs.
-- **Fingerprint:** smooth oval ridges; four possible gap positions create readable ridge endings.
-- **Constellation:** four possible positions per star and two independently selectable links. Actual connections form chains, triangles and loops.
+![Six styles encoding the same message](public/themed-landmarks.png)
 
-Coral, Knot, Fingerprint and Constellation also move two protected bits into four overall geometry variants. Local states carry the remaining bits. Derived triangles/loops do not add capacity beyond their edge decisions. Overlap order is only encoded where visibly distinguishable, as in Knot.
+| Style | What carries the message |
+|---|---|
+| Weave | Two continuous curved yarn routes. |
+| Pebble | Openings in near-round pebbles, with four regular stones sometimes merging into one larger stone. |
+| Coral | Long and short ribs growing inward from a colony of coral cups. |
+| Knot | The timing and over–under order of crossings along ropes threaded through a trefoil. |
+| Fingerprint | Ridge forks and occasional openings. |
+| Constellation | Star positions and selectable links with a 30° minimum junction angle. |
 
 ## Capacity trade-off
 
@@ -42,22 +44,18 @@ Open http://127.0.0.1:4173. Deploy the contents of `dist/` to any static host. C
 
 Make exports PNG/SVG, accepts text or arbitrary files, and supports multipart messages. Read accepts images or camera frames. Test this code provides cover, crop, rotation and blur controls. Compare shows actual capacities and measured outcomes, including failures.
 
-## Camera reading and motion
+## Reading
 
-Four themed corner motifs identify the orientation and fit a projective transform. The shapes surrounding the common circular reference rings match each language. The reader detects their centres and pupil sizes, ranks format/size/shape hypotheses, then verifies recovered data with Reed–Solomon and CRC. Uploaded images also retain a whole-shape fallback.
+The reader uses ordinary yarn loops, rounded stones, mature coral cups, trefoil windows, ridge lakes or four distinct celestial silhouettes to fit a projective transform. A visible page edge can help establish the initial pose. Ink and paper samples from the design calibrate the optical read. Reed–Solomon correction and checksum verification precede display.
 
-The camera requests high resolution and continuous autofocus where supported. Each burst takes three independent snapshots about 45 ms apart. A sharpness score ranks them; the last detected region guides that score for up to 1.5 seconds. Each candidate gets a fresh pose fit, so motion between snapshots is allowed. Frames and partial bit reads are never averaged or merged. This is region tracking and burst selection, not optical-flow tracking or motion deblurring. Processing time depends on the device.
+The camera requests high resolution and continuous focus when available. It ranks three independent snapshots taken roughly 45 ms apart and tries the sharpest first. The last detected region guides sharpness scoring for up to 1.5 seconds. **Save frame** exports the attempted snapshot.
 
-To scan from a phone, regenerate the code with v4, use **Show large**, and keep all four corner motifs in view. Bring the phone close enough for individual features to look sharp. **Save frame** exports the last attempted snapshot for diagnosing failures. Camera frames stay on the device.
+## Evaluation
 
-## Robustness and limits
+`npm test` exercises all 96 full-capacity combinations, reflection, v4/v5 compatibility, obscured features, every allowed Constellation junction, moving snapshots and distorted captures. `npm run benchmark` regenerates the image report. `node scripts/webcam-benchmark.mjs` regenerates the camera report.
 
-Four Reed–Solomon protection profiles, interleaving and low-confidence erasures support partial payload recovery. Each block requires `2 × unknown errors + erasures ≤ parity bytes`. Missing pixel area is not equivalent to damaged codewords. Missing corner motifs can prevent camera alignment before error correction is possible. CRC validates framing and assembled messages; it is not cryptographic authentication.
+Small Constellation must recover full payloads from 360-pixel captures with rotation, 1-pixel Gaussian blur and 6% of the field covered at the same time. The suite exercises all four layouts and correction levels at six angles, with coverage over the centre or one of the four guides. Every style must also pass a small-format combined-damage check.
 
-This is a custom experimental format, not ISO QR compatibility. Numeric/Kanji/ECI/GS1 modes and curved-surface recovery are absent. Old exports must be regenerated: the wire version is 4.
+The comparison view reports three messages per style and condition, including failed reads. The camera tests simulate oblique prints with ink spread or ink loss. Physical printer and camera performance remains unmeasured.
 
-`npm test` checks algebraic correction, framing, all 96 full-capacity raster combinations, reflection, tilted blurred frames, incomplete/empty landmarks and a moving snapshot burst. `npm run benchmark` writes the image benchmark; `node scripts/webcam-benchmark.mjs` writes camera simulations. These run the production pixel reader and report failures as well as successes.
-
-The v4 camera benchmark recovered 99/108 synthetic captures: all 90 larger-frame cases, and 9/18 cases with a roughly 360-pixel-wide code. The small Pebble, Knot and Constellation cases failed. These are three-message engineering samples, not real-world reliability rates or physical phone/webcam validation. Glare, autofocus, motion within a single exposure and actual screen interference remain unvalidated.
-
-See [FORMAT.md](FORMAT.md), [image results](public/benchmark.json) and [camera simulations](public/webcam-benchmark.json).
+See [the format specification](FORMAT.md), [image results](public/benchmark.json) and [camera results](public/webcam-benchmark.json).

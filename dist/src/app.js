@@ -1,9 +1,9 @@
-import { organicLayout, organicSVG } from './organic.js';
+import { EXTENT, FIELD } from './patterns/common.js';
 import { TYPES, SIZES, LEVELS, plan, encode, encodeSequence, assemble } from './format.js';
-import { toSVG, motif, geometry } from './render.js';
+import { toSVG, geometry } from './render.js';
 
 const $ = id => document.getElementById(id);
-const state = { type: 0, size: 0, level: 2, codes: [], part: 0, file: null, fileName: '', stream: null, base: null, testSize: null, decoded: null, parts: new Map() };
+const state = { type: 0, size: 0, level: 2, codes: [], part: 0, file: null, fileName: '', stream: null, base: null, decoded: null, parts: new Map() };
 const worker = new Worker(new URL('./reader-worker.js', import.meta.url), { type: 'module' });
 let job = 0, activeJob = 0, busy = false, queued = null, damageTimer, cameraTimer, capturing=false, burstCanvases=null, trackedRegion=null;
 
@@ -16,12 +16,15 @@ options($('level'), LEVELS.map(l => l.name), state.level);
 options($('compare-level'), LEVELS.map(l => l.name), state.level);
 
 function icon(type) {
-  if(type>=2){const c=encode("RS",{type,size:0,level:2}),w=geometry(0).width;return `<svg aria-hidden="true" viewBox="0 0 ${w} ${w}">${organicSVG(organicLayout(type,0,c.grid,w),c.values,"currentColor")}</svg>`;}
-  const m = motif(type, type === 5 ? 5 : 1, 0, 0);
-  const items = [ ...m.ellipses.map(e => `<ellipse cx="${e.x}" cy="${e.y}" rx="${e.rx}" ry="${e.ry}" fill="currentColor"/>`),
-    ...m.p.map(p => `<path d="${p.d}" stroke="${p.white ? 'var(--paper)' : 'currentColor'}" stroke-width="${p.w}" fill="none" stroke-linecap="round"/>`),
-    ...m.circles.map(c => `<circle cx="${c.x}" cy="${c.y}" r="${c.r}" fill="${c.white ? 'var(--paper)' : 'currentColor'}"/>`) ];
-  return `<svg aria-hidden="true" viewBox="-.1 -.1 1.2 1.2">${items.join('')}</svg>`;
+  const art = [
+    '<path d="M2 16Q2 9 9 9T23 2M2 30Q2 23 9 23T23 16T30 9"/>',
+    '<ellipse cx="10" cy="18" rx="7.5" ry="9" fill="currentColor"/><path d="M22 9l1 -1m4 6 1 -1m-7 6 1 -1m4 6 1 -1" stroke-width="5"/>',
+    '<path d="M3 14Q4 4 13 5Q21 3 27 10Q34 19 26 25Q22 31 14 28Q4 28 3 14ZM6 9l7 5m6-9-2 6m10-1-5 5m7 7-9-4m-5 10 1-7m-11-1 5-2"/>',
+    '<path d="M7 22C-2 19 3 7 10 7C17 7 28 18 24 26C20 33 8 28 8 20C8 12 19 3 25 7C32 10 29 20 22 21C17 22 12 20 10 18"/>',
+    '<path d="M3 23C0 8 12 0 21 4C30 8 32 22 25 29M5 27C1 12 11 5 18 7C27 9 29 22 22 27M9 28C5 20 8 11 14 11C22 9 26 21 20 24M13 26C9 22 10 15 15 15C19 14 23 20 18 21"/>',
+    '<path d="M3 21l8-14 10 12 8-9M11 7l4 20 6-8"/><g fill="currentColor"><circle cx="3" cy="21" r="2"/><circle cx="11" cy="7" r="3"/><circle cx="21" cy="19" r="2.5"/><circle cx="29" cy="10" r="2"/><circle cx="15" cy="27" r="2"/></g>'
+  ];
+  return `<svg aria-hidden="true" viewBox="-1 -1 34 34" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round">${art[type]}</svg>`;
 }
 TYPES.forEach((type, i) => {
   const button = document.createElement('button');
@@ -67,7 +70,9 @@ function generate() {
   $('byte-count').textContent = `${bytes} / ${p.capacity} bytes`;
   [...$('format-options').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === state.type)));
   $('format-description').textContent = TYPES[state.type].probe + ' ' + TYPES[state.type].risk;
-  dl($('format-stats'), [['Payload per code', `${p.capacity} bytes`], ['Encoded bits', p.total * 8], ['Physical features', state.type===5?`${p.grid*p.grid/4} stars + ${p.grid*p.grid/2} possible links`:state.type===3?`${p.grid*p.grid/2} strand routings`:state.type===4?`${p.grid*p.grid/2} ridge endings`:`${p.grid*p.grid} symbols`], ['Parity bytes', `${p.parity} / ${p.total}`], ['Export size', `${g.width} × ${g.width} px`]]);
+  const count=p.grid*p.grid;
+  const features=[`${count} yarn turns`,'Single and merged pebbles',`${count/4} coral cups`,`${count/2} braid crossings`,`${count/2} ridge sections`,`${Math.ceil(count*.345)} movable stars`];
+  dl($('format-stats'), [['Payload per code', `${p.capacity} bytes`], ['Encoded bits', p.total * 8], ['Physical features', features[state.type]], ['Parity bytes', `${p.parity} / ${p.total}`], ['Export size', `${g.width} × ${g.width} px`]]);
   try {
     const opts = { type: state.type, size: state.size, level: state.level, binary: !!state.file };
     state.codes = $('split').checked ? encodeSequence(payload, opts) : [encode(payload, opts)];
@@ -123,7 +128,7 @@ const saveCanvas = (c, name) => c.toBlob(blob => blob && download(blob, name), '
 $('download-svg').onclick = () => download(svgBlob(), codeName() + '.svg');
 $('download-png').onclick = async () => saveCanvas(await imageCanvas(svgBlob()), codeName() + '.png');
 $('test-code').onclick = async () => {
-  stopCamera(); state.base = await imageCanvas(svgBlob()); state.testSize = state.size;
+  stopCamera(); state.base = await imageCanvas(svgBlob());
   resetDamage(); setTab('read'); $('damage-controls').hidden = false; $('damage-controls').open = true; applyDamage();
 };
 
@@ -133,7 +138,7 @@ function clearResult() {
 }
 function invalidateReading() { job++; queued = null; }
 function scan(c, camera = false) {
-  if(!camera){clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = 'Finding the corner motifs and recovering the message.';}
+  if(!camera){clearResult(); $('scan-status').textContent = 'Reading…'; $('scan-message').textContent = 'Locating the pattern and verifying its message.';}
   const ctx = c.getContext('2d', { willReadFrequently: true }), image = ctx.getImageData(0, 0, c.width, c.height);
   const request = { id: ++job, image: { data: image.data, width: image.width, height: image.height }, camera };
   if (busy) queued = request; else sendScan(request);
@@ -152,7 +157,7 @@ worker.onmessage = ({ data }) => {
       if (!state.stream) {
         document.querySelector('.scan-result').classList.add('failure'); $('scan-status').textContent = 'No verified read.';
         $('scan-message').textContent = data.error + ' Try a larger, sharper image or reduce the damage.';
-      } else { $('scan-status').textContent = data.found===4 ? 'Code located.' : 'Looking for a code…'; $('scan-message').textContent = data.error; drawCameraOutline(data.outline,data.width,data.height); }
+      } else { $('scan-status').textContent = data.found>=3 ? 'Code located.' : 'Looking for a code…'; $('scan-message').textContent = data.error; drawCameraOutline(data.outline,data.width,data.height); }
     } else {
       showResult(data.result); if(state.stream)drawCameraOutline(data.result.outline,data.width,data.height);
       if (state.stream && data.result.parts === 1) stopCamera();
@@ -198,7 +203,7 @@ async function openImage(file) {
   if (!file) return; stopCamera(); invalidateReading();
   try {
     if (file.size > 25 * 1024 * 1024) throw Error('Choose an image smaller than 25 MB.');
-    state.base = await imageCanvas(file); state.testSize = null; $('damage-controls').hidden = true;
+    state.base = await imageCanvas(file); $('damage-controls').hidden = true;
     showCanvas(state.base); scan($('scan-canvas')); setTab('read');
   } catch (error) { clearResult(); $('scan-status').textContent = 'Could not open image.'; $('scan-message').textContent = error.message; }
 }
@@ -212,13 +217,13 @@ function showCanvas(source) {
 }
 function resetDamage() { for (const id of ['cover', 'crop', 'rotation', 'blur']) $(id).value = 0; }
 function applyDamage() {
-  if (!state.base || state.testSize === null) return;
+  if (!state.base || $('damage-controls').hidden) return;
   stopCamera(); invalidateReading();
   const cover = Number($('cover').value) / 100, crop = Number($('crop').value) / 100, angle = Number($('rotation').value), blur = Number($('blur').value);
   $('cover-output').textContent = `${Math.round(cover * 100)}%`; $('crop-output').textContent = `${Math.round(crop * 100)}%`;
   $('rotation-output').textContent = `${angle}°`; $('blur-output').textContent = `${blur} px`;
   const base = state.base, marked = canvas(base.width, base.height), m = marked.getContext('2d'); m.drawImage(base, 0, 0);
-  const side = Math.sqrt(cover) * geometry(state.testSize).inner * .72;
+  const side = Math.sqrt(cover) * base.width * FIELD / EXTENT;
   m.fillStyle = '#fff'; m.fillRect((base.width - side) / 2, (base.height - side) / 2, side, side);
   const cut = Math.floor(base.width * crop), size = base.width - cut, rad = angle * Math.PI / 180, extent = Math.ceil(size * (Math.abs(Math.sin(rad)) + Math.abs(Math.cos(rad))));
   const out = canvas(extent), ctx = out.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, extent, extent);
@@ -246,7 +251,7 @@ $('start-camera').onclick = async () => {
     if ($('panel-read').hidden) { stream.getTracks().forEach(t => t.stop()); return; }
     state.stream = stream;
     try{const track=stream.getVideoTracks()[0],caps=track.getCapabilities?.();if(caps?.focusMode?.includes('continuous'))await track.applyConstraints({advanced:[{focusMode:'continuous'}]});}catch{}
-    $('scan-status').textContent='Looking for a code…'; $('scan-message').textContent='Keep all four corner motifs visible. Move closer until the pattern is sharp.';
+    $('scan-status').textContent='Looking for a code…'; $('scan-message').textContent='Show the full pattern and bring it into focus.';
     $('camera').srcObject = stream; await $('camera').play();
     $('camera').hidden = false; $('scan-canvas').hidden = true; $('scan-placeholder').hidden = true; $('camera-guide').hidden = true; $('camera-overlay').hidden=false;
     $('damage-controls').hidden = true; $('start-camera').hidden = true; $('stop-camera').hidden = false; $('save-camera-frame').hidden=false;
@@ -282,8 +287,11 @@ function capacityTable() {
   TYPES.forEach((t, type) => { const row = body.insertRow(); row.insertCell().textContent = t.name; SIZES.forEach((_, size) => row.insertCell().textContent = `${plan(type, size, level).capacity.toLocaleString()} B`); });
 }
 $('compare-level').onchange = capacityTable;
-const reads = ['Thick curves and a simple alphabet.', 'Separated shapes remain the practical baseline.', 'A sea-fan tree with larger, readable branch tips.', 'Strand routings and visible over–under crossings carry the data.', 'Core geometry and the positions of broad ridge endings carry data.', 'Star positions and actual connections form chains, loops and triangles.'];
-TYPES.forEach((t, i) => { const card = document.createElement('article'), title = document.createElement('h3'), p = document.createElement('p'), risk = document.createElement('p'); title.textContent = t.name; p.textContent = t.potential; risk.textContent = reads[i] + ' ' + t.risk; risk.className = 'tradeoff'; card.append(title, p, risk); $('potential-grid').append(card); });
+TYPES.forEach(t => {
+  const card=document.createElement('article'), title=document.createElement('h3'), description=document.createElement('p');
+  title.textContent=t.name; description.textContent=t.probe;
+  card.append(title,description); $('potential-grid').append(card);
+});
 async function benchmarks(path, tableId, methodId) {
   try {
     const response = await fetch(path); if (!response.ok) throw Error(); const report = await response.json();

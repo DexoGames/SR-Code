@@ -13,9 +13,9 @@
 <body>
   <div class="shell">
     <header>
-      <div class="topline"><a href="https://dexo.games">↖ DEXO.GAMES</a><span>OPTICAL EXPERIMENT / V0.4</span></div>
-      <div class="masthead"><h1>RS CODE<span>.</span></h1><p>Patterns with something to say.</p></div>
-      <nav aria-label="Workspace"><button class="tab active" data-tab="make" aria-selected="true" role="tab" id="tab-make" aria-controls="panel-make">Make <span>01</span></button><button class="tab" data-tab="read" aria-selected="false" role="tab" id="tab-read" aria-controls="panel-read">Read <span>02</span></button><button class="tab" data-tab="compare" aria-selected="false" role="tab" id="tab-compare" aria-controls="panel-compare">Compare <span>03</span></button></nav>
+      <div class="topline"><a href="https://dexo.games">↖ DEXO.GAMES</a></div>
+      <div class="masthead"><h1>RS CODE<span>.</span></h1></div>
+      <nav aria-label="Workspace"><button class="tab active" data-tab="make" aria-selected="true" role="tab" id="tab-make" aria-controls="panel-make">Make</button><button class="tab" data-tab="read" aria-selected="false" role="tab" id="tab-read" aria-controls="panel-read">Read</button><button class="tab" data-tab="compare" aria-selected="false" role="tab" id="tab-compare" aria-controls="panel-compare">Compare</button></nav>
     </header>
     <main>
       <section id="panel-make" role="tabpanel" aria-labelledby="tab-make" class="workspace">
@@ -25,7 +25,7 @@
           <div class="two-fields"><div class="field"><label for="size">Size</label><select id="size"></select></div><div class="field"><label for="level">Error correction</label><select id="level"></select></div></div>
           <label class="check"><input type="checkbox" id="split"> Split long messages across codes</label>
           <div id="make-error" class="notice error" role="alert" hidden></div>
-          <details class="technical"><summary>Format details</summary><p id="format-description"></p><dl id="format-stats"></dl><p>Four themed corner motifs locate and orient the code. Keep them visible when scanning. This experimental format requires the RS reader.</p></details>
+          <details class="technical"><summary>Format details</summary><p id="format-description"></p><dl id="format-stats"></dl></details>
         </div>
         <div class="make-output">
           <div class="preview-heading"><span id="preview-name">WEAVE / S</span><div id="parts-control" hidden><button id="part-prev" aria-label="Previous code">←</button><span id="part-counter"></span><button id="part-next" aria-label="Next code">→</button></div></div>
@@ -44,21 +44,21 @@
         </div>
       </section>
       <section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
-        <div class="section-heading"><div><h2>What fits. What survives.</h2><p>Measured prototypes, with the limits left in.</p></div><div class="field"><label for="compare-level">Error correction</label><select id="compare-level"></select></div></div>
+        <div class="section-heading"><div><h2>Payload capacity</h2></div><div class="field"><label for="compare-level">Error correction</label><select id="compare-level"></select></div></div>
         <div class="table-wrap"><table id="capacity-table"></table></div>
-        <p class="small comparison-note">Net payload bytes per code, after framing and error correction. UTF-8 characters may use multiple bytes. Up to 16 codes can carry one larger message. These are v4 implementation limits, not theoretical limits of the visual languages.</p>
+        <p class="small comparison-note">Net payload bytes per code, after framing and error correction. UTF-8 characters may use multiple bytes. Up to 16 codes can carry one larger message.</p>
         <div id="potential-grid" class="potential-grid"></div>
         <div class="section-heading"><div><h2>Camera simulations</h2><p id="webcam-method">Loading measured results…</p></div><a class="text-button" href="/webcam-benchmark.json" download>Raw results ↓</a></div>
         <div class="table-wrap"><table id="webcam-table"></table></div>
         <div class="section-heading"><div><h2>Image tests</h2><p id="benchmark-method">Loading measured results…</p></div><a class="text-button" href="/benchmark.json" download>Raw results ↓</a></div>
         <div class="table-wrap"><table id="benchmark-table"></table></div>
-        <details><summary>Test method and limits</summary><p>The tests rasterize generated codes, alter their pixels, then run the same reader used here. They do not extract payloads from SVG metadata. Each cell reports successful reads out of the tested messages.</p><p>Cover percentages refer to a square mask within the data area. Damage position matters: recovery requires enough surviving shape information and codewords in every block. Losing a corner motif can prevent camera alignment even when enough data survives.</p><p>This is synthetic testing, not physical camera or printer validation. The camera reader takes three short snapshots, tries the sharpest first, and locates each frame independently. It tracks the last detected region to focus sharpness scoring. It does not blend moving frames. Glare, curved surfaces, focus and real screen interference still need physical trials.</p></details>
-        <details><summary>RS Code format and QR feature coverage</summary><p>Implemented: UTF-8 text and arbitrary bytes, four sizes, four Reed–Solomon protection levels, erasure recovery, byte interleaving, checksums, format identification, themed landmark detection, projective alignment, rotation/reflection attempts, inverted colours, partial-image recovery when alignment succeeds, and structured append up to 16 parts.</p><p>RS Code is not ISO QR Code and does not scan in ordinary QR readers. QR-specific numeric/alphanumeric/Kanji compression, ECI and GS1/FNC1 modes are not implemented. UTF-8 and binary carry the content without those specialised compression conventions. Extreme perspective, curved surfaces and arbitrary missing regions remain outside the tested operating range.</p><a href="/FORMAT.md" download>Read the specification ↓</a></details>
+        <details><summary>Test method and limits</summary><p>The tests rasterize generated codes, alter their pixels, then run the same reader used here. They do not extract payloads from SVG metadata. Each cell reports successful reads out of the tested messages.</p><p>Cover percentages refer to a square mask within the data area. Damage position matters: recovery requires enough surviving shape information and codewords in every block. The reader uses visible features of each style to estimate the angle.</p><p>This is synthetic testing, not physical camera or printer validation. The camera reader takes three short snapshots, tries the sharpest first, and locates each frame independently. It tracks the last detected region to focus sharpness scoring. It does not blend moving frames. Glare, curved surfaces, focus and real screen interference still need physical trials.</p></details>
+        <details><summary>RS Code format and QR feature coverage</summary><p>Implemented: UTF-8 text and arbitrary bytes, four sizes, four Reed–Solomon protection levels, erasure recovery, byte interleaving, checksums, format identification, style-specific feature detection, projective alignment, rotation/reflection attempts, inverted colours, partial-image recovery when alignment succeeds, and structured append up to 16 parts.</p><p>RS Code is not ISO QR Code and does not scan in ordinary QR readers. QR-specific numeric/alphanumeric/Kanji compression, ECI and GS1/FNC1 modes are not implemented. UTF-8 and binary carry the content without those specialised compression conventions. Extreme perspective, curved surfaces and arbitrary missing regions remain outside the tested operating range.</p><a href="/FORMAT.md" download>Read the specification ↓</a></details>
       </section>
     </main>
     <footer><span>RS CODE / AN EXPERIMENT BY DEXTER SMITH</span><a href="https://dexo.games">MORE AT DEXO.GAMES ↗</a></footer>
   </div>
-  <dialog id="display-code"><button id="close-display" autofocus>Close ×</button><div id="large-code"></div><p>Keep all four corner motifs visible.</p></dialog>
+  <dialog id="display-code"><button id="close-display" autofocus>Close ×</button><div id="large-code"></div><p>Show the full pattern.</p></dialog>
   <script type="module" src="/src/app.js"></script>
 </body>
 </html>
