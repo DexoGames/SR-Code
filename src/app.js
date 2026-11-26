@@ -1,11 +1,13 @@
 import { EXTENT, FIELD } from './patterns/common.js';
 import { TYPES, SIZES, LEVELS, plan, encode, encodeSequence, assemble } from './format.js';
-import { toSVG, geometry } from './render.js';
+import { toNativeSVG, geometry } from './render.js';
 
 const $ = id => document.getElementById(id);
 const state = { type: 0, size: 0, level: 2, codes: [], part: 0, file: null, fileName: '', stream: null, base: null, decoded: null, parts: new Map() };
-const worker = new Worker(new URL('./reader-worker.js', import.meta.url), { type: 'module' });
-let job = 0, activeJob = 0, busy = false, queued = null, damageTimer, cameraTimer, capturing=false, burstCanvases=null, trackedRegion=null;
+const textEncoder = new TextEncoder();
+const previewActions = ['test-code', 'download-png', 'download-svg', 'show-code'].map($);
+let previewBlob, previewURL, generationTimer, formatKey, compareLoaded = false;
+let reader, job = 0, busy = false, queued = null, damageTimer, cameraTimer, capturing=false, burstCanvases=null, trackedRegion=null;
 
 function options(select, values, selected) {
   values.forEach((value, i) => select.add(new Option(value, i)));
@@ -44,6 +46,7 @@ function setTab(name) {
     $('panel-' + button.dataset.tab).hidden = !active;
   }
   if (name !== 'read') stopCamera();
+  if (name === 'compare' && !compareLoaded) loadComparison();
 }
 document.querySelector('nav').setAttribute('role', 'tablist');
 for (const button of document.querySelectorAll('[data-tab]')) {
@@ -62,37 +65,79 @@ function dl(element, pairs) {
     dt.textContent = key; dd.textContent = value; element.append(dt, dd);
   }
 }
-function generate() {
-  state.size = Number($('size').value); state.level = Number($('level').value);
-  const payload = state.file || $('message').value;
-  const bytes = state.file?.length ?? new TextEncoder().encode(payload).length;
-  const p = plan(state.type, state.size, state.level), g = geometry(state.size);
-  $('byte-count').textContent = `${bytes} / ${p.capacity} bytes`;
+function updateFormatDetails(p) {
+  const key = `${state.type}/${state.size}/${state.level}`;
+  if (key === formatKey) return;
+  formatKey = key;
   [...$('format-options').children].forEach((b, i) => b.setAttribute('aria-pressed', String(i === state.type)));
   $('format-description').textContent = TYPES[state.type].probe + ' ' + TYPES[state.type].risk;
-  const count=p.grid*p.grid;
+  $('preview-name').textContent = `${TYPES[state.type].name.toUpperCase()} / ${SIZES[state.size].name}`;
+  const count=p.grid*p.grid, g=geometry(state.size);
   const features=[`${count} yarn turns`,'Single and merged pebbles',`${count/4} coral cups`,`${count/2} braid crossings`,`${count/2} ridge sections`,`${Math.ceil(count*.345)} movable stars`];
   dl($('format-stats'), [['Payload per code', `${p.capacity} bytes`], ['Encoded bits', p.total * 8], ['Physical features', features[state.type]], ['Parity bytes', `${p.parity} / ${p.total}`], ['Export size', `${g.width} × ${g.width} px`]]);
+}
+function generate() {
+  clearTimeout(generationTimer);
+  state.size = Number($('size').value);
+  state.level = Number($('level').value);
+  const payload = state.file ?? textEncoder.encode($('message').value);
+  const p = plan(state.type, state.size, state.level);
+  $('byte-count').textContent = `${payload.length} / ${p.capacity} bytes`;
+  updateFormatDetails(p);
   try {
     const opts = { type: state.type, size: state.size, level: state.level, binary: !!state.file };
     state.codes = $('split').checked ? encodeSequence(payload, opts) : [encode(payload, opts)];
-    state.part = 0; $('make-error').hidden = true; $('code-preview').classList.remove('invalid');
-    for (const id of ['test-code', 'download-png', 'download-svg','show-code']) $(id).disabled = false;
-    showCode();
+    state.part = 0;
   } catch (error) {
-    state.codes = []; $('code-preview').textContent = 'Message exceeds this size.'; $('preview-name').textContent = `${TYPES[state.type].name.toUpperCase()} / ${SIZES[state.size].name}`; $('make-error').hidden = false; $('make-error').textContent = error.message + ' Choose a larger size or enable splitting.';
-    $('code-preview').classList.add('invalid'); $('parts-control').hidden = true;
-    for (const id of ['test-code', 'download-png', 'download-svg','show-code']) $(id).disabled = true;
+    showGenerationError('Message exceeds this size.', error.message + ' Choose a larger size or enable splitting.');
+    return;
   }
+  showCode();
+}
+function showGenerationError(status, message) {
+  state.codes = [];
+  releasePreview();
+  $('preview-status').textContent = status;
+  $('preview-status').hidden = false;
+  $('make-error').textContent = message;
+  $('make-error').hidden = false;
+  $('parts-control').hidden = true;
+  for (const button of previewActions) button.disabled = true;
+}
+function releasePreview() {
+  if (previewURL) URL.revokeObjectURL(previewURL);
+  previewURL = undefined;
+  previewBlob = undefined;
+  $('preview-image').removeAttribute('src');
+  $('preview-image').hidden = true;
 }
 function showCode() {
-  $('code-preview').innerHTML = toSVG(state.codes[state.part]);
-  $('preview-name').textContent = `${TYPES[state.type].name.toUpperCase()} / ${SIZES[state.size].name}`;
+  try {
+    const svg = toNativeSVG(state.codes[state.part]);
+    releasePreview();
+    previewBlob = new Blob([svg], { type: 'image/svg+xml' });
+    previewURL = URL.createObjectURL(previewBlob);
+    $('preview-image').src = previewURL;
+    $('preview-image').hidden = false;
+  } catch (error) {
+    console.error(error);
+    showGenerationError('Could not generate this code.', 'Try another visual language or size.');
+    return;
+  }
+  $('preview-status').hidden = true;
+  $('make-error').hidden = true;
   $('parts-control').hidden = state.codes.length < 2;
   $('part-counter').textContent = `${state.part + 1} / ${state.codes.length}`;
   $('part-prev').disabled = state.part === 0; $('part-next').disabled = state.part === state.codes.length - 1;
+  for (const button of previewActions) button.disabled = false;
 }
-for (const id of ['message', 'size', 'level', 'split']) $(id).addEventListener('input', generate);
+$('message').addEventListener('input', () => {
+  clearTimeout(generationTimer);
+  for (const button of previewActions) button.disabled = true;
+  $('parts-control').hidden = true;
+  generationTimer = setTimeout(generate, 100);
+});
+for (const id of ['size', 'level', 'split']) $(id).addEventListener('change', generate);
 $('part-prev').onclick = () => { state.part--; showCode(); };
 $('part-next').onclick = () => { state.part++; showCode(); };
 $('encode-file').onclick = () => $('payload-file').click();
@@ -123,12 +168,14 @@ async function imageCanvas(blob) {
     return c;
   } finally { URL.revokeObjectURL(url); }
 }
-const svgBlob = () => new Blob([toSVG(state.codes[state.part])], { type: 'image/svg+xml' });
 const saveCanvas = (c, name) => c.toBlob(blob => blob && download(blob, name), 'image/png');
-$('download-svg').onclick = () => download(svgBlob(), codeName() + '.svg');
-$('download-png').onclick = async () => saveCanvas(await imageCanvas(svgBlob()), codeName() + '.png');
+$('download-svg').onclick = () => download(previewBlob, codeName() + '.svg');
+$('download-png').onclick = async () => {
+  const name = codeName() + '.png';
+  saveCanvas(await imageCanvas(previewBlob), name);
+};
 $('test-code').onclick = async () => {
-  stopCamera(); state.base = await imageCanvas(svgBlob());
+  stopCamera(); state.base = await imageCanvas(previewBlob);
   resetDamage(); setTab('read'); $('damage-controls').hidden = false; $('damage-controls').open = true; applyDamage();
 };
 
@@ -144,15 +191,26 @@ function scan(c, camera = false) {
   if (busy) queued = request; else sendScan(request);
 }
 function sendScan(request) {
-  busy = true; activeJob = request.id; $('scan-busy').hidden = false;
-  worker.postMessage(request, request.frames ? request.frames.map(f=>f.image.data.buffer) : [request.image.data.buffer]);
+  busy = true;
+  $('scan-busy').hidden = false;
+  try {
+    if (!reader) {
+      reader = new Worker(new URL(SR_READER_WORKER_PATH, import.meta.url));
+      reader.onmessage = handleScan;
+      reader.onerror = readerUnavailable;
+    }
+    reader.postMessage(request, request.frames ? request.frames.map(f=>f.image.data.buffer) : [request.image.data.buffer]);
+  } catch (error) {
+    console.error(error);
+    readerUnavailable();
+  }
 }
-worker.onmessage = ({ data }) => {
+function handleScan({ data }) {
   busy = false;
+  $('scan-busy').hidden = true;
   if (data.id === job) {
     if(data.frameIndex!==undefined&&burstCanvases?.id===data.id){state.base=burstCanvases.frames[data.frameIndex];showCameraFrame(state.base);}
     const outline=data.result?.outline??data.outline;if(outline)trackedRegion={outline,width:data.width,height:data.height,at:performance.now()};
-    $('scan-busy').hidden = true;
     if (data.error) {
       if (!state.stream) {
         document.querySelector('.scan-result').classList.add('failure'); $('scan-status').textContent = 'No verified read.';
@@ -164,8 +222,17 @@ worker.onmessage = ({ data }) => {
     }
   }
   if (queued) { const next = queued; queued = null; sendScan(next); }
-};
-worker.onerror = () => { busy = false; $('scan-busy').hidden = true; $('scan-status').textContent = 'Reader unavailable.'; $('scan-message').textContent = 'Reload this page to restart the reader.'; };
+}
+function readerUnavailable() {
+  if (reader) reader.terminate();
+  reader = null;
+  busy = false;
+  invalidateReading();
+  stopCamera();
+  $('scan-busy').hidden = true;
+  $('scan-status').textContent = 'Reader unavailable.';
+  $('scan-message').textContent = 'Try opening the image again or reload the page.';
+}
 function showResult(result) {
   clearResult();
   $('scan-details').hidden = false;
@@ -287,11 +354,17 @@ function capacityTable() {
   TYPES.forEach((t, type) => { const row = body.insertRow(); row.insertCell().textContent = t.name; SIZES.forEach((_, size) => row.insertCell().textContent = `${plan(type, size, level).capacity.toLocaleString()} B`); });
 }
 $('compare-level').onchange = capacityTable;
-TYPES.forEach(t => {
-  const card=document.createElement('article'), title=document.createElement('h3'), description=document.createElement('p');
-  title.textContent=t.name; description.textContent=t.probe;
-  card.append(title,description); $('potential-grid').append(card);
-});
+function loadComparison() {
+  compareLoaded = true;
+  capacityTable();
+  TYPES.forEach(t => {
+    const card=document.createElement('article'), title=document.createElement('h3'), description=document.createElement('p');
+    title.textContent=t.name; description.textContent=t.probe;
+    card.append(title,description); $('potential-grid').append(card);
+  });
+  benchmarks('./benchmark.json','benchmark-table','benchmark-method');
+  benchmarks('./webcam-benchmark.json','webcam-table','webcam-method');
+}
 async function benchmarks(path, tableId, methodId) {
   try {
     const response = await fetch(path); if (!response.ok) throw Error(); const report = await response.json();
@@ -305,14 +378,15 @@ async function benchmarks(path, tableId, methodId) {
   } catch { $(methodId).textContent = 'Measured results could not be loaded. Download the report or reload the page.'; }
 }
 $('scan-status').setAttribute('aria-live', 'polite');
-setTab('make'); generate(); capacityTable(); benchmarks('./benchmark.json','benchmark-table','benchmark-method'); benchmarks('./webcam-benchmark.json','webcam-table','webcam-method');
+setTab('make'); generate();
 
 function drawCameraOutline(points,width,height){
  const c=$('camera-overlay'),stage=$('drop-zone');c.width=stage.clientWidth;c.height=stage.clientHeight;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);if(!points)return;
  const scale=Math.min(c.width/width,c.height/height),ox=(c.width-width*scale)/2,oy=(c.height-height*scale)/2;ctx.strokeStyle='#f06a38';ctx.lineWidth=3;ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(ox+x*scale,oy+y*scale):ctx.moveTo(ox+x*scale,oy+y*scale));ctx.closePath();ctx.stroke();
 }
-$('show-code').onclick=()=>{if(!state.codes.length)return;$('large-code').innerHTML=toSVG(state.codes[state.part]);$('display-code').showModal();};
+$('show-code').onclick=()=>{$('large-image').src=previewURL;$('display-code').showModal();};
 $('close-display').onclick=()=>$('display-code').close();
+$('display-code').onclose=()=>$('large-image').removeAttribute('src');
 
 $('save-camera-frame').onclick=()=>{if(state.base)saveCanvas(state.base,'sr-camera-frame.png');};
 

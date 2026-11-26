@@ -24,6 +24,8 @@ jobs:
         with:
           node-version: '22'
       - uses: actions/configure-pages@v5
+      - name: Install build dependencies
+        run: npm ci --ignore-scripts
       - name: Build static site
         run: npm run build
       - uses: actions/upload-pages-artifact@v4

@@ -33,9 +33,11 @@ export function feature(contour,positive,{band=6,draw=null,outer=null}={}) {
 
 export function stone(center,r,angle,seed=0) {
   // Keep the width and height close. Asymmetry only softens the outline.
+  const [cx,cy]=center,cos=Math.cos(angle),sin=Math.sin(angle);
   return Array.from({length:40},(_,i)=>{
     const a=TAU*i/40,w=r*(1+.040*Math.cos(3*a+seed)+.021*Math.sin(2*a-seed));
-    return around(center,angle,w*Math.cos(a),w*.96*Math.sin(a));
+    const x=w*Math.cos(a),y=w*.96*Math.sin(a);
+    return [cx+x*cos-y*sin,cy+x*sin+y*cos];
   });
 }
 

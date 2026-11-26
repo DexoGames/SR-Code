@@ -1,3 +1,0 @@
-import{decodeImage}from'./vision.js';
-// Frames are independent exposures. Never average poses or merge their bit values.
-export function decodeBurst(frames,options={camera:true}){let best=null,bestIndex=0;const order=frames.map((f,index)=>({...f,index})).sort((a,b)=>(b.quality??0)-(a.quality??0));for(const f of order)try{return{result:decodeImage(f.image,options),frameIndex:f.index,width:f.image.width,height:f.image.height};}catch(error){if(!best||(error.found??0)>(best.found??0)){best=error;bestIndex=f.index;}}const error=best||Error('No snapshots supplied.');error.frameIndex=bestIndex;if(frames[bestIndex]){error.width=frames[bestIndex].image.width;error.height=frames[bestIndex].image.height;}throw error;}

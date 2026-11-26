@@ -23,13 +23,16 @@ export function weave(n){
     sites.push(site);if(!reserved)free.push(site);
   }
   const symbols=takeEvenly(free,n*n);symbols.forEach((s,i)=>{s.index=i;});
+  const h=pitch/2,radius=num(h),up=xy([h,-h]),down=xy([h,h]);
+  const arc=(x,y,sweep,end)=>`M${xy([x,y])}a${radius} ${radius} 0 0 ${sweep} ${end}`;
   return {marks,render(code,ink){
     const curves=[];
-    for(const {x,y,index,defaultValue} of sites){
-      const value=index===undefined?defaultValue:code.values[index], h=pitch/2;
-      const arc=(a,b,sweep)=>`M${xy(a)}a${num(h)} ${num(h)} 0 0 ${sweep} ${xy(b)}`;
-      curves.push(value?arc([x-h,y],[h,-h],0)+arc([x,y+h],[h,-h],1):
-        arc([x,y-h],[h,h],0)+arc([x-h,y],[h,h],1));
+    for(const site of sites){
+      const {x,y,index,defaultValue}=site;
+      const value=index===undefined?defaultValue:code.values[index];
+      const paths=site.paths??=[];
+      paths[value]??=value?arc(x-h,y,0,up)+arc(x,y+h,1,up):arc(x,y-h,0,down)+arc(x-h,y,1,down);
+      curves.push(paths[value]);
     }
     return stroke(curves.join(''),pitch*.174,ink);
   },read(at,out){
@@ -60,7 +63,7 @@ export function pebbles(n) {
   const units=[],used=new Set(),key=(r,c)=>r*count+c;
   const center=(r,c)=>[42+(c+.5+.15*(r%2)+.055*Math.sin(r*7+c))*pitch,42+(r+.5+.065*Math.cos(c*4-r))*pitch];
   const clear=(p,r)=>marks.every(m=>Math.hypot(p[0]-m.center[0],p[1]-m.center[1])>m.clearance+r);
-  const make=(p,r,seed)=>({p,r,outline:stone(p,r,seed*.27,seed)});
+  const make=(p,r,seed)=>({p,r,seed});
   // A merger consumes four ordinary packing sites. Only these sites change
   // size. The rest of the riverbed retains its full baseline stone diameter.
   for(let row=0;row<count-1;row++)for(let col=0;col<count-1;col++){
@@ -84,13 +87,21 @@ export function pebbles(n) {
   for(const u of units){u.start=bit;bit+=u.width;}
   if(bit<required)throw Error('Insufficient pebble packing');
   const dirs=[[0,-1],[1,0],[0,1],[-1,0]],q=(s,k)=>[s.p[0]+dirs[k][0]*s.r*.53,s.p[1]+dirs[k][1]*s.r*.53];
+  function pore(s,direction) {
+    const [x,y]=q(s,direction), radius=num(s.r*.295), diameter=num(s.r*.59);
+    return `M${xy([x-s.r*.295,y])}a${radius} ${radius} 0 1 0 ${diameter} 0a${radius} ${radius} 0 1 0 ${-diameter} 0Z`;
+  }
   return {marks,render(code,ink,paper){
     const bodies=[],pores=[];
     for(const u of units){
       const v=u.start<required?symbolValue(code,u.start,u.width):(Math.imul(u.start,2654435761)>>>27)&((1<<u.width)-1),stones=u.large&&(v&4)?[u.large]:u.stones;
       for(const s of stones){
-        bodies.push(path(s.outline)+'Z');
-        const z=q(s,v&3);pores.push(`M${xy([z[0]-s.r*.295,z[1]])}a${num(s.r*.295)} ${num(s.r*.295)} 0 1 0 ${num(s.r*.59)} 0a${num(s.r*.295)} ${num(s.r*.295)} 0 1 0 ${num(-s.r*.59)} 0Z`);
+        s.body??=path(stone(s.p,s.r,s.seed*.27,s.seed))+'Z';
+        s.pores??=[];
+        const direction=v&3;
+        s.pores[direction]??=pore(s,direction);
+        bodies.push(s.body);
+        pores.push(s.pores[direction]);
       }
     }
     return `<path d="${bodies.join('')}" fill="${ink}"/><path d="${pores.join('')}" fill="${paper}"/>`+marks.map(m=>m.draw(ink,paper)).join('');

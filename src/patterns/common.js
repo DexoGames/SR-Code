@@ -9,7 +9,7 @@ export const TAU = Math.PI * 2;
 export const nearAnchor = (p, margin = 0) => ANCHORS.some(a => Math.hypot(p[0] - a[0], p[1] - a[1]) < CLEARANCE + margin);
 export const polar = (p, r, a) => [p[0] + r * Math.cos(a), p[1] + r * Math.sin(a)];
 export const num = x => +x.toFixed(2);
-export const xy = p => p.map(num).join(' ');
+export const xy = ([x, y]) => `${num(x)} ${num(y)}`;
 export const path = ps => 'M' + ps.map(xy).join('L');
 export const dot = (p, r, fill) => `<circle cx="${num(p[0])}" cy="${num(p[1])}" r="${num(r)}" fill="${fill}"/>`;
 export const stroke = (d, w, ink, caps = 'round') => `<path d="${d}" fill="none" stroke="${ink}" stroke-width="${num(w)}" stroke-linecap="${caps}" stroke-linejoin="round"/>`;

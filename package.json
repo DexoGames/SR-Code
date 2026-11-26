@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "devDependencies": { "sharp": "0.35.5" },
-  "engines": { "node": ">=22" },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "sharp": "0.35.5"
+  },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "node scripts/serve.mjs",
     "build": "node scripts/build.mjs",

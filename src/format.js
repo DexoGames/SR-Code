@@ -33,7 +33,8 @@ export function encode(payload,{type=0,size=1,level=2,...meta}={}){
   const pack=packet(bytes,p,meta),blocks=[];let offset=0;
   for(const b of p.blocks){blocks.push(rsEncode(pack.slice(offset,offset+b.k),b.p));offset+=b.k;}
   const stream=new Uint8Array(p.total);let out=0;
-  for(let col=0;col<Math.max(...blocks.map(b=>b.length));col++)for(const b of blocks)if(col<b.length)stream[out]=b[col]^whiten(out++);
+  const columns=Math.max(...blocks.map(b=>b.length));
+  for(let col=0;col<columns;col++)for(const b of blocks)if(col<b.length)stream[out]=b[col]^whiten(out++);
   const values=[];
   for(let i=0;i<p.grid*p.grid;i++){let value=0;for(let bit=0;bit<p.bits;bit++){const q=i*p.bits+bit;value=(value<<1)|((stream[q>>>3]||0)>>(7-(q&7))&1);}values.push(value);}
   return{...p,version:meta.version??6,values,payload:bytes,meta};
@@ -41,7 +42,8 @@ export function encode(payload,{type=0,size=1,level=2,...meta}={}){
 export function encodeSequence(payload,options={}){
   const bytes=typeof payload==='string'?new TextEncoder().encode(payload):Uint8Array.from(payload),p=plan(options.type??0,options.size??1,options.level??2);
   const count=Math.max(1,Math.ceil(bytes.length/p.capacity));if(count>MAX_PARTS)throw Error(`Use a larger size: this selection supports at most ${p.capacity*MAX_PARTS} bytes across 16 parts.`);
-  return Array.from({length:count},(_,part)=>encode(bytes.slice(part*p.capacity,(part+1)*p.capacity),{...options,part,parts:count,totalLength:bytes.length,group:crc32(bytes)}));
+  const group=crc32(bytes);
+  return Array.from({length:count},(_,part)=>encode(bytes.subarray(part*p.capacity,(part+1)*p.capacity),{...options,part,parts:count,totalLength:bytes.length,group}));
 }
 export function decodeValues(values,valid,{type,size,level,version=6}){
   const p=plan(type,size,level),stream=new Uint8Array(p.total),missing=new Uint8Array(p.total);
@@ -51,7 +53,8 @@ export function decodeValues(values,valid,{type,size,level,version=6}){
   }
   for(let i=0;i<stream.length;i++)stream[i]^=whiten(i);
   const blocks=p.blocks.map(b=>new Uint8Array(b.n)),erased=p.blocks.map(()=>[]);let offset=0;
-  for(let col=0;col<Math.max(...p.blocks.map(b=>b.n));col++)for(let b=0;b<blocks.length;b++)if(col<blocks[b].length){blocks[b][col]=stream[offset];if(missing[offset])erased[b].push(col);offset++;}
+  const columns=Math.max(...p.blocks.map(b=>b.n));
+  for(let col=0;col<columns;col++)for(let b=0;b<blocks.length;b++)if(col<blocks[b].length){blocks[b][col]=stream[offset];if(missing[offset])erased[b].push(col);offset++;}
   const bytes=new Uint8Array(p.capacity+HEADER);let at=0,corrected=0,erasures=0;
   for(let i=0;i<blocks.length;i++){const d=rsDecode(blocks[i],p.blocks[i].p,erased[i]);bytes.set(d.data,at);at+=d.data.length;corrected+=d.corrected;erasures+=d.erasures;}
   const v=new DataView(bytes.buffer),length=v.getUint16(18),parts=bytes[13],part=bytes[12],totalLength=v.getUint32(14);

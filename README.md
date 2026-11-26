@@ -30,10 +30,10 @@ UTF-8 characters may require several bytes. Up to 16 codes can carry a message. 
 
 ## Run
 
-Node 22+, with `sharp` as a development-only dependency:
+Node 22+, with esbuild for the browser bundles and sharp for image tests:
 
 ```sh
-npm install
+npm ci
 npm test
 npm run benchmark
 npm run build

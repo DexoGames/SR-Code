@@ -71,8 +71,9 @@ export function sky(n,variant,classic=false){
     nodes.push({p,positions,adj:[],motion:Math.SQRT2*shift,rad:radius});
   }
   function add(i,j,fixed){
-    nodes[i].adj.push(j);nodes[j].adj.push(i);edges.push({i,j,fixed});
+    nodes[i].adj.push(j);nodes[j].adj.push(i);edges.push({i,j,fixed,bounds:bounds(nodes[i].p,nodes[j].p)});
   }
+  const bounds=(a,b)=>[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[0],b[0]),Math.max(a[1],b[1])];
   for(const m of marks){
     const start=nodes.length;
     for(const [k,p] of m.outer.entries())nodes.push({p,positions:[p],adj:[],motion:0,rad:[7.5,5.1,6.3][k]});
@@ -89,8 +90,20 @@ export function sky(n,variant,classic=false){
     if(a.adj.length>=4||b.adj.length>=4)continue;
     if(a.adj.some(k=>!angleAllowed(a,b,nodes[k]))||b.adj.some(k=>!angleAllowed(b,a,nodes[k])))continue;
     const drift=Math.max(a.motion,b.motion);
-    if(nodes.some((s,k)=>k!==i&&k!==j&&distanceToSegment(s.p,a.p,b.p)<s.rad+s.motion+drift+spacing*.070))continue;
-    if(edges.some(e=>e.i!==i&&e.i!==j&&e.j!==i&&e.j!==j&&segmentDistance(a.p,b.p,nodes[e.i].p,nodes[e.j].p)<drift+Math.max(nodes[e.i].motion,nodes[e.j].motion)+spacing*.14))continue;
+    const [left,top,right,bottom]=bounds(a.p,b.p);
+    // A disjoint bounding box rules out close approaches before the distance checks.
+    if(nodes.some((s,k)=>{
+      if(k===i||k===j)return false;
+      const margin=s.rad+s.motion+drift+spacing*.070,[x,y]=s.p;
+      return x>=left-margin&&x<=right+margin&&y>=top-margin&&y<=bottom+margin&&distanceToSegment(s.p,a.p,b.p)<margin;
+    }))continue;
+    if(edges.some(e=>{
+      if(e.i===i||e.i===j||e.j===i||e.j===j)return false;
+      const margin=drift+Math.max(nodes[e.i].motion,nodes[e.j].motion)+spacing*.14;
+      const [edgeLeft,edgeTop,edgeRight,edgeBottom]=e.bounds;
+      return edgeRight>=left-margin&&edgeLeft<=right+margin&&edgeBottom>=top-margin&&edgeTop<=bottom+margin&&
+        segmentDistance(a.p,b.p,nodes[e.i].p,nodes[e.j].p)<margin;
+    }))continue;
     add(i,j,false);
   }
   const links=takeEvenly(edges.filter(e=>!e.fixed),n*n-2*count);

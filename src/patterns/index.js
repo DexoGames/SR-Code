@@ -2,7 +2,7 @@ import {logicalGrid} from '../format.js';
 import {clothOrStone} from './cloth-stone.js';
 import {coral,constellation} from './reef-sky.js';
 import {knot} from './knot.js';
-import {fingerprint} from './fingerprint.js';
+import {fingerprint} from './ridge-pattern.js';
 
 const cache=new Map();
 export function pattern(type,size,variant=0) {

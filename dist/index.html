@@ -7,7 +7,7 @@
   <title>SR Code — dexo.games</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -29,8 +29,8 @@
         </div>
         <div class="make-output">
           <div class="preview-heading"><span id="preview-name">WEAVE / S</span><div id="parts-control" hidden><button id="part-prev" aria-label="Previous code">←</button><span id="part-counter"></span><button id="part-next" aria-label="Next code">→</button></div></div>
-          <div id="code-preview" class="code-preview" aria-label="Generated SR code"></div>
-          <div class="output-actions"><button class="primary" id="test-code">Test this code ↗</button><button id="show-code">Show large ↗</button><button id="download-png">PNG ↓</button><button id="download-svg">SVG ↓</button></div>
+          <div id="code-preview" class="code-preview"><span id="preview-status" role="status"></span><img id="preview-image" alt="Generated SR code" hidden><noscript>Enable JavaScript to generate a code.</noscript></div>
+          <div class="output-actions"><button class="primary" id="test-code" disabled>Test this code ↗</button><button id="show-code" disabled>Show large ↗</button><button id="download-png" disabled>PNG ↓</button><button id="download-svg" disabled>SVG ↓</button></div>
         </div>
       </section>
       <section id="panel-read" role="tabpanel" aria-labelledby="tab-read" hidden>
@@ -58,7 +58,15 @@
     </main>
     <footer><span>AN EXPERIMENT BY DEXTER SMITH</span><a href="https://dexo.games">MORE AT DEXO.GAMES ↗</a></footer>
   </div>
-  <dialog id="display-code"><button id="close-display" autofocus>Close ×</button><div id="large-code"></div><p>Show the full pattern.</p></dialog>
-  <script type="module" src="./src/app.js"></script>
+  <dialog id="display-code"><button id="close-display" autofocus>Close ×</button><div id="large-code"><img id="large-image" alt="Generated SR code"></div><p>Show the full pattern.</p></dialog>
+  <script type="module">
+    const status = document.getElementById('preview-status');
+    status.textContent = 'Loading generator…';
+    import('./assets/app-QB64VHXG.js').catch(error => {
+      console.error(error);
+      status.textContent = 'Could not load the generator. Reload the page to try again.';
+      status.hidden = false;
+    });
+  </script>
 </body>
 </html>
