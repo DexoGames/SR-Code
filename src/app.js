@@ -110,7 +110,7 @@ function download(blob, name) {
   const a = document.createElement('a'), url = URL.createObjectURL(blob); a.href = url; a.download = name;
   document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
-function codeName() { return `rs-${TYPES[state.type].id}-${SIZES[state.size].name.toLowerCase()}${state.codes.length > 1 ? '-' + (state.part + 1) : ''}`; }
+function codeName() { return `sr-${TYPES[state.type].id}-${SIZES[state.size].name.toLowerCase()}${state.codes.length > 1 ? '-' + (state.part + 1) : ''}`; }
 function canvas(width, height = width) { const c = document.createElement('canvas'); c.width = width; c.height = height; return c; }
 async function imageCanvas(blob) {
   const url = URL.createObjectURL(blob), image = new Image();
@@ -196,7 +196,7 @@ $('copy-result').onclick = async () => {
   try { await navigator.clipboard.writeText(state.decoded.text); $('copy-result').textContent = 'Copied'; setTimeout(() => $('copy-result').textContent = 'Copy', 1500); }
   catch { $('scan-message').textContent = 'Select the decoded message to copy it.'; }
 };
-$('save-payload').onclick = () => download(new Blob([state.decoded.data], { type: state.decoded.text === null ? 'application/octet-stream' : 'text/plain;charset=utf-8' }), state.decoded.text === null ? 'rs-payload.bin' : 'rs-message.txt');
+$('save-payload').onclick = () => download(new Blob([state.decoded.data], { type: state.decoded.text === null ? 'application/octet-stream' : 'text/plain;charset=utf-8' }), state.decoded.text === null ? 'sr-payload.bin' : 'sr-message.txt');
 $('clear-parts').onclick = () => { state.parts.clear(); $('clear-parts').hidden = true; clearResult(); $('scan-status').textContent = 'Parts cleared.'; $('scan-message').textContent = 'Read another code to start a new message.'; };
 
 async function openImage(file) {
@@ -233,7 +233,7 @@ function applyDamage() {
 }
 for (const id of ['cover', 'crop', 'rotation', 'blur']) $(id).oninput = () => { invalidateReading(); clearTimeout(damageTimer); damageTimer = setTimeout(applyDamage, 140); };
 $('reset-damage').onclick = () => { resetDamage(); applyDamage(); };
-$('save-test-image').onclick = () => saveCanvas($('scan-canvas'), 'rs-damage-test.png');
+$('save-test-image').onclick = () => saveCanvas($('scan-canvas'), 'sr-damage-test.png');
 
 function stopCamera() {
   if (!state.stream) return;
@@ -305,7 +305,7 @@ async function benchmarks(path, tableId, methodId) {
   } catch { $(methodId).textContent = 'Measured results could not be loaded. Download the report or reload the page.'; }
 }
 $('scan-status').setAttribute('aria-live', 'polite');
-setTab('make'); generate(); capacityTable(); benchmarks('/benchmark.json','benchmark-table','benchmark-method'); benchmarks('/webcam-benchmark.json','webcam-table','webcam-method');
+setTab('make'); generate(); capacityTable(); benchmarks('./benchmark.json','benchmark-table','benchmark-method'); benchmarks('./webcam-benchmark.json','webcam-table','webcam-method');
 
 function drawCameraOutline(points,width,height){
  const c=$('camera-overlay'),stage=$('drop-zone');c.width=stage.clientWidth;c.height=stage.clientHeight;const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);if(!points)return;
@@ -314,7 +314,7 @@ function drawCameraOutline(points,width,height){
 $('show-code').onclick=()=>{if(!state.codes.length)return;$('large-code').innerHTML=toSVG(state.codes[state.part]);$('display-code').showModal();};
 $('close-display').onclick=()=>$('display-code').close();
 
-$('save-camera-frame').onclick=()=>{if(state.base)saveCanvas(state.base,'rs-camera-frame.png');};
+$('save-camera-frame').onclick=()=>{if(state.base)saveCanvas(state.base,'sr-camera-frame.png');};
 
 function frameSharpness(source){
  let x=source.width*.1,y=source.height*.1,w=source.width*.8,h=source.height*.8;

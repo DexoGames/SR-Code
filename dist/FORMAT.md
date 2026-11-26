@@ -1,4 +1,4 @@
-# RS Code v6 experimental format
+# SR Code v6 experimental format
 
 The generator writes version 6. The reader retains v4 and v5 optical layouts and validates the wire version. Capacities, Reed–Solomon profiles and multipart framing are shared across the three versions.
 

@@ -14,7 +14,7 @@ export const shapeOffset=(type,size)=>64*plan(type,size,0).blocks.length;
 export const shapeVariant=code=>code.type>=2?(code.values[shapeOffset(code.type,code.size)]<<1)|code.values[shapeOffset(code.type,code.size)+1]:0;
 export const HEADER=24,MAX_PARTS=16;
 export function plan(type,size,level){
-  const t=TYPES[type],s=SIZES[size],l=LEVELS[level];if(!t||!s||!l)throw Error('Unsupported RS Code format');
+  const t=TYPES[type],s=SIZES[size],l=LEVELS[level];if(!t||!s||!l)throw Error('Unsupported SR Code format');
   const grid=logicalGrid(type,size),total=Math.floor(grid*grid*t.bits/8),count=Math.ceil(total/128);
   const blocks=Array.from({length:count},(_,i)=>{const n=Math.floor(total/count)+(i<total%count?1:0),p=Math.ceil(n*l.ratio);return{n,p,k:n-p};});
   return{type,size,level,grid,bits:t.bits,total,blocks,capacity:blocks.reduce((s,b)=>s+b.k,0)-HEADER,parity:blocks.reduce((s,b)=>s+b.p,0)};

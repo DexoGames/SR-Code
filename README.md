@@ -1,6 +1,6 @@
-# RS Code lab · v6
+# SR Code lab · v6
 
-A browser-local generator and pixel reader for six optical styles. Each style uses features of its own artwork for alignment. The app exports PNG or SVG, reads images and camera frames, and supports multipart text and files. The reader also accepts v4 and v5 exports.
+Special Response (SR) Code is a browser-local generator and pixel reader for six optical styles. Each style uses features of its own artwork for alignment. The app exports PNG or SVG, reads images and camera frames, and supports multipart text and files. The reader also accepts v4 and v5 exports.
 
 ![Six styles encoding the same message](public/themed-landmarks.png)
 
@@ -40,9 +40,13 @@ npm run build
 npm run dev
 ```
 
-Open http://127.0.0.1:4173. Deploy the contents of `dist/` to any static host. Camera access needs HTTPS or localhost. Files and camera frames stay on the device.
+Open http://127.0.0.1:4173. Camera access needs HTTPS or localhost. Files and camera frames stay on the device.
 
 Make exports PNG/SVG, accepts text or arbitrary files, and supports multipart messages. Read accepts images or camera frames. Test this code provides cover, crop, rotation and blur controls. Compare shows actual capacities and measured outcomes, including failures.
+
+## Deploy
+
+GitHub Actions builds and publishes `dist/` to [sr.dexo.games](https://sr.dexo.games) on pushes to `main`. The workflow can also be run manually from `main` in the Actions tab. The Pages custom domain uses a DNS CNAME from `sr.dexo.games` to `dexogames.github.io`.
 
 ## Reading
 
